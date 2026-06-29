@@ -10,6 +10,7 @@ export interface CravingLog {
   amountSaved: number;
   trigger: 'Boredom' | 'Stress' | 'Tiredness' | 'Loneliness' | 'Habit' | 'Social' | 'Other';
   notes: string;
+  goalId?: string;
 }
 
 export interface SavingsGoal {
@@ -254,6 +255,7 @@ export const useAppStore = create<AppState>()(
           amountSaved: order.totalSaved,
           trigger,
           notes,
+          goalId: state.activeGoalId,
         };
 
         const updatedGoals = state.goals.map((g) => {
