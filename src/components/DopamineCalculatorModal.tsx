@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { X, TrendingUp, Lightbulb, ShieldAlert } from 'lucide-react';
 import { haptics } from '../services/haptics';
+import { useAppStore } from '../store/useAppStore';
 
 interface DopamineCalculatorModalProps {
   isOpen: boolean;
@@ -57,9 +58,21 @@ export const DopamineCalculatorModal: React.FC<DopamineCalculatorModalProps> = (
     },
   };
 
+  const { startGlobalIntercept } = useAppStore();
+
   const handleClose = () => {
     haptics.lightTap();
     onClose();
+  };
+
+  const handleStartIntercept = () => {
+    haptics.successNotification();
+    onClose();
+    if (trigger === 'BOREDOM' || trigger === 'REWARD') {
+      startGlobalIntercept('GAME');
+    } else {
+      startGlobalIntercept('BREATHE');
+    }
   };
 
   const handleTriggerSelect = (type: TriggerType) => {
@@ -210,7 +223,7 @@ export const DopamineCalculatorModal: React.FC<DopamineCalculatorModalProps> = (
         {/* Footer */}
         <div className="mt-5 pt-4 border-t border-slate-800/80 shrink-0 flex gap-2">
           <button
-            onClick={handleClose}
+            onClick={handleStartIntercept}
             className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold py-2.5 rounded-xl shadow-glass transition-all active:scale-95 cursor-pointer text-center"
           >
             Start Intercepting Cravings

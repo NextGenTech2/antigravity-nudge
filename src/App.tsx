@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useAppStore, type CravingLog } from './store/useAppStore';
+import { useAppStore, type CravingLog, type DeliveryStageType } from './store/useAppStore';
 import { auth } from './services/firebase';
 import { haptics } from './services/haptics';
 import type { Restaurant } from './types/restaurant';
@@ -19,6 +19,7 @@ import { BottomNavigation } from './components/BottomNavigation';
 import type { ScreenType } from './components/BottomNavigation';
 import { CartOverlay } from './components/CartOverlay';
 import { CravingsLogModal } from './components/CravingsLogModal';
+import { GlobalInterceptOverlay } from './components/GlobalInterceptOverlay';
 import restaurantsData from './data/restaurants.json';
 
 interface AppHistoryState {
@@ -64,7 +65,8 @@ export const App: React.FC = () => {
     activeOrder,
     startDelivery,
     setDeliveryStage,
-    completeDelivery 
+    completeDelivery,
+    globalIntercept
   } = useAppStore();
   
   const [activeScreen, setActiveScreen] = useState<ScreenType>('browse');
@@ -84,6 +86,7 @@ export const App: React.FC = () => {
     trigger?: CravingLog['trigger'] | null;
   } | null>(null);
 
+  const pausedDurationRef = React.useRef<number>(0);
   const isFirstMount = React.useRef(true);
 
   // 5-second Idle Bounce Timer
@@ -177,17 +180,28 @@ export const App: React.FC = () => {
     }
   }, [activeScreen, activeRestaurant, isCartExpanded]);
 
-  // Background-safe Timer Orchestration
+  // Reset paused duration when a new delivery starts
   useEffect(() => {
-    if (deliveryStage === 'IDLE' || !deliveryStartTime || !activeOrder) {
-      return;
+    if (deliveryStage === 'PREPARING') {
+      pausedDurationRef.current = 0;
     }
+  }, [deliveryStage]);
 
-    const { prepEnd, packEnd, riderEnd, routeEnd, total } = getStageTransitions(settings.fastModeEnabled);
-    
+  // Simulated Delivery Tick
+  useEffect(() => {
+    if (!deliveryStartTime || deliveryStage === 'IDLE' || deliveryStage === 'DELIVERED' || !activeOrder) return;
+
+    const transitions = getStageTransitions(settings.fastModeEnabled);
+    const { prepEnd, packEnd, riderEnd, routeEnd, total } = transitions;
+
     const tick = () => {
-      const elapsed = Date.now() - deliveryStartTime;
-      let newStage = deliveryStage;
+      if (globalIntercept !== 'NONE') {
+        pausedDurationRef.current += 200;
+        return;
+      }
+
+      const elapsed = Date.now() - deliveryStartTime - pausedDurationRef.current;
+      let newStage: DeliveryStageType = 'PREPARING';
       let prog = 0;
 
       if (elapsed < prepEnd) {
@@ -439,6 +453,9 @@ export const App: React.FC = () => {
           onSave={handleLogSave}
         />
       )}
+
+      {/* Global Immersive Intercept Overlay */}
+      <GlobalInterceptOverlay />
     </div>
   );
 };

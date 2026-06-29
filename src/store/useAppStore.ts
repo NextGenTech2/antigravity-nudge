@@ -67,6 +67,9 @@ interface AppState {
   goals: SavingsGoal[];
   activeGoalId: string;
   
+  // Global Intercept State (Full-screen immersion)
+  globalIntercept: 'NONE' | 'BREATHE' | 'GAME';
+  
   // Delivery State Machine
   deliveryStage: DeliveryStageType;
   deliveryStartTime: number | null;
@@ -99,6 +102,10 @@ interface AppState {
   setActiveGoalId: (goalId: string) => void;
   allocateSavingsToGoal: (goalId: string, amount: number) => void;
   
+  // Global Intercept Actions
+  startGlobalIntercept: (type: 'BREATHE' | 'GAME') => void;
+  stopGlobalIntercept: () => void;
+  
   // Settings Actions
   updateSettings: (settings: Partial<AppSettings>) => void;
   resetAllData: () => void;
@@ -126,6 +133,8 @@ export const useAppStore = create<AppState>()(
         { id: 'tech', name: 'Tech Upgrade Fund', target: 80000, saved: 3500, emoji: '💻' },
       ],
       activeGoalId: 'phuket',
+      
+      globalIntercept: 'NONE',
       
       deliveryStage: 'IDLE',
       deliveryStartTime: null,
@@ -269,6 +278,10 @@ export const useAppStore = create<AppState>()(
         return { goals: updatedGoals };
       }),
 
+      startGlobalIntercept: (type) => set({ globalIntercept: type }),
+      
+      stopGlobalIntercept: () => set({ globalIntercept: 'NONE' }),
+
       updateSettings: (newSettings) => set((state) => ({
         settings: { ...state.settings, ...newSettings },
       })),
@@ -283,6 +296,7 @@ export const useAppStore = create<AppState>()(
           { id: 'tech', name: 'Tech Upgrade Fund', target: 80000, saved: 3500, emoji: '💻' },
         ],
         activeGoalId: 'phuket',
+        globalIntercept: 'NONE',
         settings: initialSettings,
         deliveryStage: 'IDLE',
         deliveryStartTime: null,
