@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useAppStore } from './store/useAppStore';
+import { useAppStore, type CravingLog } from './store/useAppStore';
 import { auth } from './services/firebase';
 import { haptics } from './services/haptics';
 import type { Restaurant } from './types/restaurant';
@@ -81,6 +81,7 @@ export const App: React.FC = () => {
   const [lastOrderDetails, setLastOrderDetails] = useState<{
     restaurantName: string;
     amountSaved: number;
+    trigger?: CravingLog['trigger'] | null;
   } | null>(null);
 
   const isFirstMount = React.useRef(true);
@@ -227,6 +228,7 @@ export const App: React.FC = () => {
           setLastOrderDetails({
             restaurantName: activeOrder.restaurantName,
             amountSaved: activeOrder.totalSaved,
+            trigger: activeOrder.trigger,
           });
           setIsLogModalOpen(true);
         } else {
@@ -248,6 +250,7 @@ export const App: React.FC = () => {
       setLastOrderDetails({
         restaurantName: activeOrder.restaurantName,
         amountSaved: activeOrder.totalSaved,
+        trigger: activeOrder.trigger,
       });
       setIsLogModalOpen(true);
     }
@@ -432,6 +435,7 @@ export const App: React.FC = () => {
           isOpen={isLogModalOpen}
           amountSaved={lastOrderDetails.amountSaved}
           restaurantName={lastOrderDetails.restaurantName}
+          initialTrigger={lastOrderDetails.trigger || null}
           onSave={handleLogSave}
         />
       )}

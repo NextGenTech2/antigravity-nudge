@@ -12,6 +12,14 @@ export interface CravingLog {
   notes: string;
 }
 
+export interface SavingsGoal {
+  id: string;
+  name: string;
+  target: number;
+  saved: number;
+  emoji: string;
+}
+
 export interface UserProfile {
   uid: string;
   email: string | null;
@@ -45,6 +53,7 @@ interface ActiveOrder {
   cuisine: string;
   totalSaved: number;
   items: { name: string; quantity: number; price: number }[];
+  trigger?: CravingLog['trigger'] | null;
 }
 
 interface AppState {
@@ -53,6 +62,10 @@ interface AppState {
   savings: number;
   history: CravingLog[];
   settings: AppSettings;
+  
+  // Goals State
+  goals: SavingsGoal[];
+  activeGoalId: string;
   
   // Delivery State Machine
   deliveryStage: DeliveryStageType;
@@ -79,7 +92,12 @@ interface AppState {
     items: { name: string; quantity: number; price: number }[]
   ) => void;
   setDeliveryStage: (stage: DeliveryStageType) => void;
+  setActiveOrderTrigger: (trigger: CravingLog['trigger']) => void;
   completeDelivery: (trigger: CravingLog['trigger'], notes: string) => void;
+  
+  // Goals Actions
+  setActiveGoalId: (goalId: string) => void;
+  allocateSavingsToGoal: (goalId: string, amount: number) => void;
   
   // Settings Actions
   updateSettings: (settings: Partial<AppSettings>) => void;
@@ -100,6 +118,14 @@ export const useAppStore = create<AppState>()(
       savings: 0,
       history: [],
       settings: initialSettings,
+      
+      // Goals Initial State
+      goals: [
+        { id: 'phuket', name: 'Phi Phi Islands Trip', target: 45000, saved: 1200, emoji: '🌴' },
+        { id: 'zerodha', name: 'Zerodha Equity Portfolio', target: 100000, saved: 5000, emoji: '📈' },
+        { id: 'tech', name: 'Tech Upgrade Fund', target: 80000, saved: 3500, emoji: '💻' },
+      ],
+      activeGoalId: 'phuket',
       
       deliveryStage: 'IDLE',
       deliveryStartTime: null,
@@ -183,11 +209,22 @@ export const useAppStore = create<AppState>()(
           cuisine,
           totalSaved,
           items,
+          trigger: null,
         },
         cart: null, // Clear cart once delivery starts
       }),
 
       setDeliveryStage: (stage) => set({ deliveryStage: stage }),
+
+      setActiveOrderTrigger: (trigger) => set((state) => {
+        if (!state.activeOrder) return {};
+        return {
+          activeOrder: {
+            ...state.activeOrder,
+            trigger,
+          },
+        };
+      }),
 
       completeDelivery: (trigger, notes) => set((state) => {
         const order = state.activeOrder;
@@ -203,13 +240,33 @@ export const useAppStore = create<AppState>()(
           notes,
         };
 
+        const updatedGoals = state.goals.map((g) => {
+          if (g.id === state.activeGoalId) {
+            return { ...g, saved: g.saved + order.totalSaved };
+          }
+          return g;
+        });
+
         return {
           savings: state.savings + order.totalSaved,
           history: [newLog, ...state.history],
+          goals: updatedGoals,
           deliveryStage: 'IDLE',
           deliveryStartTime: null,
           activeOrder: null,
         };
+      }),
+
+      setActiveGoalId: (goalId) => set({ activeGoalId: goalId }),
+      
+      allocateSavingsToGoal: (goalId, amount) => set((state) => {
+        const updatedGoals = state.goals.map((g) => {
+          if (g.id === goalId) {
+            return { ...g, saved: g.saved + amount };
+          }
+          return g;
+        });
+        return { goals: updatedGoals };
       }),
 
       updateSettings: (newSettings) => set((state) => ({
@@ -220,6 +277,12 @@ export const useAppStore = create<AppState>()(
         cart: null,
         savings: 0,
         history: [],
+        goals: [
+          { id: 'phuket', name: 'Phi Phi Islands Trip', target: 45000, saved: 1200, emoji: '🌴' },
+          { id: 'zerodha', name: 'Zerodha Equity Portfolio', target: 100000, saved: 5000, emoji: '📈' },
+          { id: 'tech', name: 'Tech Upgrade Fund', target: 80000, saved: 3500, emoji: '💻' },
+        ],
+        activeGoalId: 'phuket',
         settings: initialSettings,
         deliveryStage: 'IDLE',
         deliveryStartTime: null,

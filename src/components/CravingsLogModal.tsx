@@ -9,6 +9,7 @@ interface CravingsLogModalProps {
   isOpen: boolean;
   amountSaved: number;
   restaurantName: string;
+  initialTrigger?: CravingLog['trigger'] | null;
   onSave: (trigger: CravingLog['trigger'], notes: string) => void;
 }
 
@@ -26,6 +27,7 @@ export const CravingsLogModal: React.FC<CravingsLogModalProps> = ({
   isOpen,
   amountSaved,
   restaurantName,
+  initialTrigger,
   onSave,
 }) => {
   const [selectedTrigger, setSelectedTrigger] = useState<CravingLog['trigger'] | null>(null);
@@ -34,6 +36,9 @@ export const CravingsLogModal: React.FC<CravingsLogModalProps> = ({
 
   useEffect(() => {
     if (isOpen) {
+      if (initialTrigger) {
+        setSelectedTrigger(initialTrigger);
+      }
       // Trigger a premium double-confetti burst!
       const duration = 2.5 * 1000;
       const end = Date.now() + duration;
@@ -61,7 +66,7 @@ export const CravingsLogModal: React.FC<CravingsLogModalProps> = ({
       
       frame();
     }
-  }, [isOpen]);
+  }, [isOpen, initialTrigger]);
 
   const handleTriggerSelect = (trigger: CravingLog['trigger']) => {
     haptics.lightTap();
