@@ -31,7 +31,7 @@ export const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant, onCl
       className="bg-darkcard rounded-2xl overflow-hidden cursor-pointer shadow-card-elevation border border-slate-800/20 flex flex-col h-72 group transition-all duration-300"
     >
       {/* Restaurant Image Header */}
-      <div className="relative h-40 w-full overflow-hidden bg-slate-950">
+      <div className="relative h-48 w-full overflow-hidden bg-slate-950">
         <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-darkcard to-transparent z-10" />
         
         {/* Shimmer Placeholder while AI generates the image */}
@@ -67,9 +67,9 @@ export const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant, onCl
       </div>
 
       {/* Restaurant Details */}
-      <div className="p-4 flex-1 flex flex-col justify-between bg-transparent">
+      <div className="p-3.5 flex-1 flex flex-col justify-between bg-transparent">
         <div>
-          <h3 className="text-lg font-semibold text-slate-100 group-hover:text-brand-400 transition-colors duration-200 line-clamp-1">
+          <h3 className="text-base font-bold text-slate-100 group-hover:text-brand-400 transition-colors duration-200 line-clamp-1">
             {restaurant.name}
           </h3>
           <p className="text-slate-400 text-xs mt-0.5 line-clamp-1">
@@ -78,13 +78,13 @@ export const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant, onCl
         </div>
 
         {/* Metadata row */}
-        <div className="flex items-center justify-between border-t border-slate-800/80 pt-3 mt-2 text-xs text-slate-400 font-medium">
+        <div className="flex items-center justify-between border-t border-slate-800/80 pt-2.5 mt-1.5 text-xs text-slate-400 font-medium">
           <div className="flex items-center gap-1">
-            <Clock size={14} className="text-indigo-400" />
+            <Clock size={13} className="text-indigo-400" />
             <span>{restaurant.deliveryTime} mins</span>
           </div>
           <div className="flex items-center gap-1">
-            <ShoppingBag size={14} className="text-emerald-400" />
+            <ShoppingBag size={13} className="text-emerald-400" />
             <span>₹{restaurant.deliveryFee} delivery</span>
           </div>
         </div>
