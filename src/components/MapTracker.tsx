@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Polyline, useMap } from 'react-leaflet';
 import L from 'leaflet';
-import { Clock, TrendingUp } from 'lucide-react';
 
 interface MapTrackerProps {
   progress: number; // 0 to 1
@@ -78,8 +77,6 @@ const interpolateCoords = (
 
 export const MapTracker: React.FC<MapTrackerProps> = ({
   progress,
-  eta,
-  currentSavings,
   userCoords,
   restaurantCoords,
 }) => {
@@ -113,29 +110,6 @@ export const MapTracker: React.FC<MapTrackerProps> = ({
         <Marker position={userCoords} icon={userIcon} />
         <Marker position={riderPos} icon={riderIcon} />
       </MapContainer>
-
-      {/* Top Floating Stats */}
-      <div className="absolute top-4 left-4 right-4 z-[9999] flex gap-3 pointer-events-none">
-        <div className="flex-1 glass-panel rounded-xl p-3 flex items-center gap-3 shadow-lg">
-          <div className="p-2 bg-indigo-500/20 text-indigo-400 rounded-lg">
-            <Clock size={18} />
-          </div>
-          <div>
-            <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">ETA</p>
-            <p className="text-sm font-bold text-slate-100">{eta > 0 ? `${eta} mins` : 'Arrived'}</p>
-          </div>
-        </div>
-
-        <div className="flex-1 glass-panel rounded-xl p-3 flex items-center gap-3 shadow-lg border-emerald-500/20">
-          <div className="p-2 bg-emerald-500/20 text-emerald-400 rounded-lg">
-            <TrendingUp size={18} />
-          </div>
-          <div>
-            <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Saved So Far</p>
-            <p className="text-sm font-bold text-emerald-400 font-mono">₹{currentSavings}</p>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

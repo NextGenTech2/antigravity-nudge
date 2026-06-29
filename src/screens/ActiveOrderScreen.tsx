@@ -367,7 +367,7 @@ export const ActiveOrderScreen: React.FC<ActiveOrderScreenProps> = ({
   return (
     <motion.div
       layoutId="activeOrderContainer"
-      className="w-full h-full flex flex-col bg-darkbg"
+      className="w-full h-full flex flex-col bg-darkbg overflow-y-auto"
     >
       
       {/* Top Fixed Header: Continuous Savings Spotlight */}
@@ -398,7 +398,7 @@ export const ActiveOrderScreen: React.FC<ActiveOrderScreenProps> = ({
       </div>
 
       {/* Main Stage Panel */}
-      <div className="flex-1 flex flex-col justify-center items-center p-6 relative">
+      <div className="flex-1 min-h-0 flex flex-col justify-center items-center p-6 relative">
         {stage === 'EN_ROUTE' ? (
           /* Map Stage with Intervention HUD Overlay */
           <div className="w-full h-full rounded-2xl overflow-hidden border border-slate-800/80 relative shadow-glass bg-slate-950">
@@ -422,9 +422,9 @@ export const ActiveOrderScreen: React.FC<ActiveOrderScreenProps> = ({
             </Suspense>
 
             {/* Geolocation Privacy Notice */}
-            <div className="absolute top-20 left-1/2 -translate-x-1/2 z-[9999] pointer-events-none w-[90%] max-w-xs text-center">
-              <span className="bg-slate-950/75 border border-slate-800/60 text-[8px] font-semibold text-slate-400 py-1 px-3.5 rounded-full backdrop-blur-sm shadow-sm inline-block leading-none uppercase tracking-wider">
-                Location is used only for this simulation and is never stored
+            <div className="absolute bottom-14 right-3 z-[9999] pointer-events-none">
+              <span className="bg-slate-950/70 border border-slate-800/50 text-[7px] font-medium text-slate-500 py-0.5 px-2 rounded-full backdrop-blur-sm inline-block leading-none tracking-wider">
+                📍 Simulation only · Not stored
               </span>
             </div>
 
@@ -492,27 +492,27 @@ export const ActiveOrderScreen: React.FC<ActiveOrderScreenProps> = ({
                   </div>
 
                   {/* Breathing Pulse Graphic */}
-                  <div className="flex-1 flex flex-col justify-center items-center space-y-8">
+                  <div className="flex-1 flex flex-col justify-center items-center space-y-4">
                     <motion.div
                       animate={{ scale: currentBreatheCycle.scale }}
                       transition={{ duration: 1, ease: 'easeInOut' }}
-                      className="h-28 w-28 rounded-full bg-indigo-500/10 border-2 border-indigo-400 flex items-center justify-center shadow-glass-glow"
+                      className="h-20 w-20 rounded-full bg-indigo-500/10 border-2 border-indigo-400 flex items-center justify-center shadow-glass-glow"
                     >
-                      <span className="text-sm font-black text-indigo-300 uppercase tracking-widest">
+                      <span className="text-xs font-black text-indigo-300 uppercase tracking-widest">
                         {currentBreatheCycle.phase}
                       </span>
                     </motion.div>
 
-                    <div className="space-y-2">
-                      <h4 className="text-lg font-bold text-slate-200">{currentBreatheCycle.desc}</h4>
-                      <p className="text-sm text-slate-300 leading-relaxed max-w-[260px] mx-auto">
-                        Box breathing calms the nervous system and dampens immediate dopamine impulses.
+                    <div className="space-y-1">
+                      <h4 className="text-base font-bold text-slate-200">{currentBreatheCycle.desc}</h4>
+                      <p className="text-xs text-slate-400 leading-relaxed max-w-[240px] mx-auto">
+                        Box breathing calms the nervous system and dampens dopamine impulses.
                       </p>
                     </div>
                   </div>
 
                   {/* Footer Stats */}
-                  <div className="glass-panel p-3 bg-slate-900/50 max-w-xs mx-auto w-full">
+                  <div className="glass-panel p-2.5 bg-slate-900/50 max-w-xs mx-auto w-full">
                     <p className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Remaining Time</p>
                     <p className="text-lg font-black text-indigo-400 font-mono">{breatheTime}s</p>
                   </div>
@@ -545,7 +545,7 @@ export const ActiveOrderScreen: React.FC<ActiveOrderScreenProps> = ({
 
                   {gameStatus === 'PLAYING' ? (
                     /* The Game Screen */
-                    <div className="flex-1 flex flex-col justify-center items-center space-y-6">
+                    <div className="flex-1 flex flex-col justify-center items-center space-y-3">
                       <div className="space-y-1">
                         <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Target Color</p>
                         <h3 className="text-xl font-black tracking-tight" style={{ color: targetColor.hex }}>
@@ -554,13 +554,13 @@ export const ActiveOrderScreen: React.FC<ActiveOrderScreenProps> = ({
                       </div>
 
                       {/* 3x3 Grid */}
-                      <div className="grid grid-cols-3 gap-3 max-w-[240px] w-full aspect-square">
+                      <div className="grid grid-cols-3 gap-2 max-w-[180px] w-full aspect-square">
                         {gridColors.map((color, idx) => (
                           <motion.button
                             key={`${color.name}-${idx}`}
                             whileTap={{ scale: 0.95 }}
                             onClick={() => handleTileClick(color.name)}
-                            className={`w-full h-full rounded-xl ${color.bgClass} shadow-md border border-slate-900/30 cursor-pointer`}
+                            className={`w-full h-full rounded-lg ${color.bgClass} shadow-md border border-slate-900/30 cursor-pointer`}
                           />
                         ))}
                       </div>
@@ -684,7 +684,7 @@ export const ActiveOrderScreen: React.FC<ActiveOrderScreenProps> = ({
       </div>
 
       {/* Bottom Stage Pipeline Status Indicator */}
-      <div className="glass-panel border-t border-slate-900 p-5 rounded-t-3xl shadow-glass bg-darkcard/95 pb-28 shrink-0">
+      <div className="glass-panel border-t border-slate-900 p-5 rounded-t-3xl shadow-glass bg-darkcard/95 pb-20 shrink-0">
         <div className="flex items-center justify-between mb-4">
           <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Delivery Timeline</span>
           <span className="text-xs font-bold text-indigo-400">{activeStage.title}</span>

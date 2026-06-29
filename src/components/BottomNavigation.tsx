@@ -45,7 +45,7 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
   }, [showTooltip]);
 
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-md z-40">
+    <div className="fixed bottom-0 left-0 right-0 z-40 px-3 pb-[env(safe-area-inset-bottom)]">
       {/* Locked Tooltip Popover */}
       <AnimatePresence>
         {showTooltip && (
@@ -63,7 +63,7 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
         )}
       </AnimatePresence>
 
-      <div className="glass-panel rounded-2xl py-3 px-6 flex justify-around items-center shadow-glass backdrop-blur-md">
+      <div className="glass-panel rounded-2xl py-3 px-6 flex justify-around items-center shadow-glass backdrop-blur-md max-w-md mx-auto">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeScreen === item.id;
