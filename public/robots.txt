@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://antigravity-nudge.vercel.app/sitemap.xml
+Sitemap: https://nudge.apextoolhub.com/sitemap.xml
