@@ -77,6 +77,22 @@ const FALLBACK_IMAGES: Record<string, string | string[]> = {
     'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&auto=format&fit=crop&q=60',
     'https://images.unsplash.com/photo-1505576399279-565b52d4ac71?w=500&auto=format&fit=crop&q=60'
   ],
+  'beverage': [
+    'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=60',
+    'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=500&auto=format&fit=crop&q=60',
+    'https://images.unsplash.com/photo-1497515114629-f71d768fd07c?w=500&auto=format&fit=crop&q=60',
+    'https://images.unsplash.com/photo-1536935338788-846bb9981813?w=500&auto=format&fit=crop&q=60'
+  ],
+  'sides': [
+    'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=500&auto=format&fit=crop&q=60',
+    'https://images.unsplash.com/photo-1562967914-608f82629710?w=500&auto=format&fit=crop&q=60',
+    'https://images.unsplash.com/photo-1639024471283-2bc7b3c6a267?w=500&auto=format&fit=crop&q=60'
+  ],
+  'dessert': [
+    'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=500&auto=format&fit=crop&q=60',
+    'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=500&auto=format&fit=crop&q=60',
+    'https://images.unsplash.com/photo-1587314168485-3236d6710814?w=500&auto=format&fit=crop&q=60'
+  ]
 };
 
 // Local cache for generated DALL-E images to avoid redundant API calls and costs
@@ -152,10 +168,106 @@ export const imageGenerator = {
    * Retrieves a high-quality static Unsplash fallback image if the AI generator is slow or fails.
    */
   getFallbackImage: (keyword: string, id?: string): string => {
-    const val = FALLBACK_IMAGES[keyword];
+    const cleanKeyword = keyword.toLowerCase();
+    
+    // 1. Try exact match first
+    let val = FALLBACK_IMAGES[cleanKeyword];
+    
+    // 2. Fuzzy match group fallback
+    if (!val) {
+      if (cleanKeyword.includes('burger')) {
+        val = FALLBACK_IMAGES['burger'];
+      } else if (cleanKeyword.includes('pizza')) {
+        val = FALLBACK_IMAGES['pizza'];
+      } else if (cleanKeyword.includes('biryani') || cleanKeyword.includes('rice')) {
+        val = FALLBACK_IMAGES['biryani'];
+      } else if (
+        cleanKeyword.includes('curry') || 
+        cleanKeyword.includes('masala') || 
+        cleanKeyword.includes('paneer') || 
+        cleanKeyword.includes('dal') || 
+        cleanKeyword.includes('tikka') || 
+        cleanKeyword.includes('kebab') || 
+        cleanKeyword.includes('naan') || 
+        cleanKeyword.includes('roti') || 
+        cleanKeyword.includes('chole') || 
+        cleanKeyword.includes('veg')
+      ) {
+        val = FALLBACK_IMAGES['curry'];
+      } else if (
+        cleanKeyword.includes('dosa') || 
+        cleanKeyword.includes('idli') || 
+        cleanKeyword.includes('vada') || 
+        cleanKeyword.includes('uttapam') || 
+        cleanKeyword.includes('pongal')
+      ) {
+        val = FALLBACK_IMAGES['dosa'];
+      } else if (
+        cleanKeyword.includes('noodle') || 
+        cleanKeyword.includes('spring') || 
+        cleanKeyword.includes('manchurian') || 
+        cleanKeyword.includes('dim sum') || 
+        cleanKeyword.includes('soup') || 
+        cleanKeyword.includes('chow')
+      ) {
+        val = FALLBACK_IMAGES['noodles'];
+      } else if (
+        cleanKeyword.includes('sushi') || 
+        cleanKeyword.includes('roll') || 
+        cleanKeyword.includes('sashimi') || 
+        cleanKeyword.includes('nigiri') || 
+        cleanKeyword.includes('tempura') || 
+        cleanKeyword.includes('udon') || 
+        cleanKeyword.includes('katsu')
+      ) {
+        val = FALLBACK_IMAGES['sushi'];
+      } else if (
+        cleanKeyword.includes('salad') || 
+        cleanKeyword.includes('bowl') || 
+        cleanKeyword.includes('toast') || 
+        cleanKeyword.includes('hummus')
+      ) {
+        val = FALLBACK_IMAGES['salad'];
+      } else if (
+        cleanKeyword.includes('fries') || 
+        cleanKeyword.includes('nuggets') || 
+        cleanKeyword.includes('rings') || 
+        cleanKeyword.includes('sticks') || 
+        cleanKeyword.includes('wedges') || 
+        cleanKeyword.includes('wings') || 
+        cleanKeyword.includes('lollipop')
+      ) {
+        val = FALLBACK_IMAGES['sides'];
+      } else if (
+        cleanKeyword.includes('shake') || 
+        cleanKeyword.includes('smoothie') || 
+        cleanKeyword.includes('lassi') || 
+        cleanKeyword.includes('coffee') || 
+        cleanKeyword.includes('tea') || 
+        cleanKeyword.includes('soda') || 
+        cleanKeyword.includes('cola') || 
+        cleanKeyword.includes('mojito') || 
+        cleanKeyword.includes('juice') || 
+        cleanKeyword.includes('water')
+      ) {
+        val = FALLBACK_IMAGES['beverage'];
+      } else if (
+        cleanKeyword.includes('cake') || 
+        cleanKeyword.includes('brownie') || 
+        cleanKeyword.includes('jamun') || 
+        cleanKeyword.includes('phirni') || 
+        cleanKeyword.includes('dessert') || 
+        cleanKeyword.includes('sweet') || 
+        cleanKeyword.includes('tiramisu')
+      ) {
+        val = FALLBACK_IMAGES['dessert'];
+      }
+    }
+    
     if (!val) {
       return 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&auto=format&fit=crop&q=60';
     }
+    
     if (Array.isArray(val)) {
       if (id) {
         const seed = getSeedFromId(id);

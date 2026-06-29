@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart, Plus, Minus, Trash2, X, ChevronUp, ArrowRight } from 'lucide-react';
 import { useAppStore } from '../store/useAppStore';
@@ -6,10 +6,11 @@ import { haptics } from '../services/haptics';
 
 interface CartOverlayProps {
   onCheckout: () => void;
+  isExpanded: boolean;
+  setIsExpanded: (expanded: boolean) => void;
 }
 
-export const CartOverlay: React.FC<CartOverlayProps> = ({ onCheckout }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+export const CartOverlay: React.FC<CartOverlayProps> = ({ onCheckout, isExpanded, setIsExpanded }) => {
   const { cart, removeFromCart, updateQuantity } = useAppStore();
 
   if (!cart || cart.items.length === 0) return null;
@@ -21,7 +22,17 @@ export const CartOverlay: React.FC<CartOverlayProps> = ({ onCheckout }) => {
 
   const handleToggle = () => {
     haptics.lightTap();
-    setIsExpanded(!isExpanded);
+    if (isExpanded) {
+      // If closing, pop history if the history state says the cart was expanded
+      const currentHistoryState = window.history.state;
+      if (currentHistoryState && currentHistoryState.cartExpanded) {
+        window.history.back();
+      } else {
+        setIsExpanded(false);
+      }
+    } else {
+      setIsExpanded(true);
+    }
   };
 
   const handleQtyChange = (itemId: string, change: number) => {

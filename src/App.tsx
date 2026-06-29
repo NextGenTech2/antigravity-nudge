@@ -19,6 +19,13 @@ import { BottomNavigation } from './components/BottomNavigation';
 import type { ScreenType } from './components/BottomNavigation';
 import { CartOverlay } from './components/CartOverlay';
 import { CravingsLogModal } from './components/CravingsLogModal';
+import restaurantsData from './data/restaurants.json';
+
+interface AppHistoryState {
+  screen: ScreenType;
+  restaurantId: string | null;
+  cartExpanded: boolean;
+}
 
 // Helper functions for stage timings
 const getStageDurations = (fastMode: boolean) => {
@@ -69,11 +76,14 @@ export const App: React.FC = () => {
   const [currentSavings, setCurrentSavings] = useState(0);
   const [isLogModalOpen, setIsLogModalOpen] = useState(false);
   const [shouldBounce, setShouldBounce] = useState(false);
+  const [isCartExpanded, setIsCartExpanded] = useState(false);
   
   const [lastOrderDetails, setLastOrderDetails] = useState<{
     restaurantName: string;
     amountSaved: number;
   } | null>(null);
+
+  const isFirstMount = React.useRef(true);
 
   // 5-second Idle Bounce Timer
   useEffect(() => {
@@ -112,6 +122,59 @@ export const App: React.FC = () => {
       return () => unsubscribe();
     }
   }, [setUser]);
+
+  // --- Native Back Button & Browser History Sync ---
+  useEffect(() => {
+    // Initialize history state on mount
+    const initialState: AppHistoryState = {
+      screen: 'browse',
+      restaurantId: null,
+      cartExpanded: false,
+    };
+    window.history.replaceState(initialState, '');
+
+    const handlePopState = (event: PopStateEvent) => {
+      const state = event.state as AppHistoryState;
+      if (state) {
+        // Update React states from popped history state
+        setActiveScreen(state.screen);
+        setIsCartExpanded(state.cartExpanded);
+        
+        if (state.restaurantId) {
+          const found = restaurantsData.find((r) => r.id === state.restaurantId);
+          setActiveRestaurant(found as Restaurant || null);
+        } else {
+          setActiveRestaurant(null);
+        }
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  // Synchronize React state changes to browser history
+  useEffect(() => {
+    if (isFirstMount.current) {
+      isFirstMount.current = false;
+      return;
+    }
+
+    const currentHistoryState = window.history.state as AppHistoryState;
+    const matches = currentHistoryState &&
+                    currentHistoryState.screen === activeScreen &&
+                    currentHistoryState.restaurantId === (activeRestaurant ? activeRestaurant.id : null) &&
+                    currentHistoryState.cartExpanded === isCartExpanded;
+
+    if (!matches) {
+      const newState: AppHistoryState = {
+        screen: activeScreen,
+        restaurantId: activeRestaurant ? activeRestaurant.id : null,
+        cartExpanded: isCartExpanded,
+      };
+      window.history.pushState(newState, '');
+    }
+  }, [activeScreen, activeRestaurant, isCartExpanded]);
 
   // Background-safe Timer Orchestration
   useEffect(() => {
@@ -322,7 +385,15 @@ export const App: React.FC = () => {
             ) : (
               <MenuScreen
                 restaurant={activeRestaurant}
-                onBack={() => setActiveRestaurant(null)}
+                onBack={() => {
+                  // Go back in history if the current history state has a restaurant
+                  const currentHistoryState = window.history.state as AppHistoryState;
+                  if (currentHistoryState && currentHistoryState.restaurantId) {
+                    window.history.back();
+                  } else {
+                    setActiveRestaurant(null);
+                  }
+                }}
               />
             )}
           </>
@@ -335,7 +406,11 @@ export const App: React.FC = () => {
 
       {/* Global Cart Overlay (only visible when browsing and not in a sub-screen) */}
       {activeScreen === 'browse' && deliveryStage === 'IDLE' && (
-        <CartOverlay onCheckout={handleCheckout} />
+        <CartOverlay 
+          onCheckout={handleCheckout} 
+          isExpanded={isCartExpanded}
+          setIsExpanded={setIsCartExpanded}
+        />
       )}
 
       {/* Persistent Bottom Tab Bar */}
