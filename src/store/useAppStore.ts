@@ -131,9 +131,9 @@ export const useAppStore = create<AppState>()(
       
       // Goals Initial State
       goals: [
-        { id: 'phuket', name: 'Phi Phi Islands Trip', target: 45000, saved: 1200, emoji: '🌴' },
-        { id: 'zerodha', name: 'Zerodha Equity Portfolio', target: 100000, saved: 5000, emoji: '📈' },
-        { id: 'tech', name: 'Tech Upgrade Fund', target: 80000, saved: 3500, emoji: '💻' },
+        { id: 'phuket', name: 'Phi Phi Islands Trip', target: 45000, saved: 0, emoji: '🌴' },
+        { id: 'zerodha', name: 'Zerodha Equity Portfolio', target: 100000, saved: 0, emoji: '📈' },
+        { id: 'tech', name: 'Tech Upgrade Fund', target: 80000, saved: 0, emoji: '💻' },
       ],
       activeGoalId: 'phuket',
       
@@ -301,9 +301,9 @@ export const useAppStore = create<AppState>()(
         savings: 0,
         history: [],
         goals: [
-          { id: 'phuket', name: 'Phi Phi Islands Trip', target: 45000, saved: 1200, emoji: '🌴' },
-          { id: 'zerodha', name: 'Zerodha Equity Portfolio', target: 100000, saved: 5000, emoji: '📈' },
-          { id: 'tech', name: 'Tech Upgrade Fund', target: 80000, saved: 3500, emoji: '💻' },
+          { id: 'phuket', name: 'Phi Phi Islands Trip', target: 45000, saved: 0, emoji: '🌴' },
+          { id: 'zerodha', name: 'Zerodha Equity Portfolio', target: 100000, saved: 0, emoji: '📈' },
+          { id: 'tech', name: 'Tech Upgrade Fund', target: 80000, saved: 0, emoji: '💻' },
         ],
         activeGoalId: 'phuket',
         globalIntercept: 'NONE',
