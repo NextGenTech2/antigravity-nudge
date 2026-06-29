@@ -658,11 +658,11 @@ export const ActiveOrderScreen: React.FC<ActiveOrderScreenProps> = ({
             </div>
 
             {/* Cognitive Behavioral Tips (Nudge Engine) */}
-            <div className="glass-panel rounded-xl p-4 bg-darkcard/30 border-slate-900 text-xs text-slate-400 max-w-[280px] w-full min-h-[96px] flex flex-col justify-center overflow-hidden relative">
-              <p className="font-bold text-indigo-400 mb-1.5 uppercase tracking-wider text-[9px] flex items-center gap-1 shrink-0">
+            <div className="glass-panel rounded-xl p-5 bg-darkcard/30 border-slate-900 text-slate-400 max-w-[330px] w-full min-h-[110px] flex flex-col justify-center overflow-hidden relative">
+              <p className="font-bold text-indigo-400 mb-2 uppercase tracking-wider text-xs flex items-center gap-1.5 shrink-0">
                 <span>🧠</span> Why the wait?
               </p>
-              <div className="flex-1 relative flex items-center min-h-[48px]">
+              <div className="flex-1 relative flex items-center min-h-[52px]">
                 <AnimatePresence mode="wait">
                   {currentNudge && (
                     <motion.p
@@ -671,7 +671,7 @@ export const ActiveOrderScreen: React.FC<ActiveOrderScreenProps> = ({
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -8 }}
                       transition={{ duration: 0.4, ease: 'easeInOut' }}
-                      className="text-xs text-slate-200 leading-relaxed text-left"
+                      className="text-sm text-slate-100 leading-relaxed text-left font-medium"
                     >
                       {currentNudge.text}
                     </motion.p>
