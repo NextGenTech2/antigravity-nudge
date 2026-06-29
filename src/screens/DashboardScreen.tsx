@@ -54,7 +54,7 @@ export const DashboardScreen: React.FC = () => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col bg-darkbg pb-48 overflow-y-auto">
+    <div className="w-full h-full flex flex-col bg-darkbg pb-24 overflow-y-auto">
       {/* Title */}
       <div className={`p-6 pb-2 transition-all duration-300 ${deliveryStage !== 'IDLE' ? 'pt-24' : 'pt-8'}`}>
         <h1 className="text-2xl font-black text-slate-100 tracking-tight flex items-center gap-2">

@@ -49,7 +49,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectRestaurant }) =>
   const displayName = user?.displayName || (user?.isGuest ? 'Craving Conqueror' : 'Friend');
 
   return (
-    <div className="w-full h-full flex flex-col bg-darkbg pb-48 overflow-y-auto">
+    <div className="w-full h-full flex flex-col bg-darkbg pb-24 overflow-y-auto">
       {/* Header Profile Section */}
       <div className="p-6 pb-2 pt-8 flex items-center justify-between">
         <div className="space-y-1">
