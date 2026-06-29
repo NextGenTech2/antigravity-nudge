@@ -1,0 +1,314 @@
+[
+  {
+    "id": "pizza_phys_1",
+    "type": "physiological",
+    "category": "pizza",
+    "text": "Pizza cravings are driven by the combination of melted fats and refined carbs, which triggers a rapid dopamine release. Waiting 15 minutes allows this chemical surge to naturally subside."
+  },
+  {
+    "id": "pizza_phys_2",
+    "type": "physiological",
+    "category": "pizza",
+    "text": "The visual cue of pulling cheese is a powerful sensory trigger. By closing your eyes and taking three deep breaths, you disengage the brain's visual craving network."
+  },
+  {
+    "id": "pizza_phys_3",
+    "type": "physiological",
+    "category": "pizza",
+    "text": "Cravings for savory umami (like tomato and cheese) are often just your body asking for hydration. Try drinking a glass of water right now."
+  },
+  {
+    "id": "pizza_fin_1",
+    "type": "financial",
+    "category": "pizza",
+    "text": "Skipping this pizza save you roughly ₹500. Over a month, that is ₹2,000 diverted directly into your personal goals."
+  },
+  {
+    "id": "pizza_fin_2",
+    "type": "financial",
+    "category": "pizza",
+    "text": "Your future self will thank you. That pizza would be gone in 15 minutes, but the money saved remains in your vault forever."
+  },
+  {
+    "id": "pizza_phys_4",
+    "type": "physiological",
+    "category": "pizza",
+    "text": "Highly processed wheat in pizza crust causes a rapid blood sugar spike followed by a crash. By waiting, you avoid a afternoon energy slump."
+  },
+  {
+    "id": "pizza_fin_3",
+    "type": "financial",
+    "category": "pizza",
+    "text": "Think of what else ₹500 can buy. You are trading a fleeting cheese craving for tangible progress toward your goals."
+  },
+  {
+    "id": "burger_phys_1",
+    "type": "physiological",
+    "category": "burger",
+    "text": "Gourmet burgers combine salt, fat, and sugar (in buns/sauces) to hit the 'bliss point.' Recognizing this design helps you reclaim control."
+  },
+  {
+    "id": "burger_phys_2",
+    "type": "physiological",
+    "category": "burger",
+    "text": "The smell of grilled patties triggers salivary glands and anticipatory dopamine. Acknowledging this response robs it of its impulsive power."
+  },
+  {
+    "id": "burger_phys_3",
+    "type": "physiological",
+    "category": "burger",
+    "text": "Heavy sodium in fast-food burgers creates temporary water retention. By skipping it, you feel lighter and sleep better tonight."
+  },
+  {
+    "id": "burger_fin_1",
+    "type": "financial",
+    "category": "burger",
+    "text": "A burger meal with fries and a drink easily costs ₹450. Saving this today is a direct investment in your weekend plans."
+  },
+  {
+    "id": "burger_fin_2",
+    "type": "financial",
+    "category": "burger",
+    "text": "Every burger craving deflected is a double victory: you save ₹450 and avoid 900+ empty calories."
+  },
+  {
+    "id": "burger_phys_4",
+    "type": "physiological",
+    "category": "burger",
+    "text": "Craving a juicy burger is often a sign of fatigue. Your brain is seeking fast energy. Try resting for 5 minutes instead."
+  },
+  {
+    "id": "burger_fin_3",
+    "type": "financial",
+    "category": "burger",
+    "text": "Compounding interest: saving ₹450 twice a week adds up to over ₹45,000 in a single year. Small choices build huge vaults."
+  },
+  {
+    "id": "biryani_phys_1",
+    "type": "physiological",
+    "category": "biryani",
+    "text": "The rich aroma of cardamom, saffron, and spices in Biryani is a powerful sensory anchor. The scent is intense, but your willpower is stronger."
+  },
+  {
+    "id": "biryani_phys_2",
+    "type": "physiological",
+    "category": "biryani",
+    "text": "Biryani's carb-heavy rice and rich fats trigger a massive serotonin release, making it the ultimate comfort food cue. Recognize the cue and breathe."
+  },
+  {
+    "id": "biryani_phys_3",
+    "type": "physiological",
+    "category": "biryani",
+    "text": "The anticipation of spices actually stimulates your gut-brain axis. Give your brain 10 minutes to settle this temporary neural alarm."
+  },
+  {
+    "id": "biryani_fin_1",
+    "type": "financial",
+    "category": "biryani",
+    "text": "A premium mutton or chicken biryani order costs around ₹600. That is 60% of a weekly gym pass saved in a single decision."
+  },
+  {
+    "id": "biryani_fin_2",
+    "type": "financial",
+    "category": "biryani",
+    "text": "You are trading a heavy, sleep-inducing meal for alert energy and a ₹600 boost to your savings vault."
+  },
+  {
+    "id": "biryani_phys_4",
+    "type": "physiological",
+    "category": "biryani",
+    "text": "Biryani cravings are often cultural and social habit loops. Ask yourself: are you actually hungry, or just seeking comfort?"
+  },
+  {
+    "id": "biryani_fin_3",
+    "type": "financial",
+    "category": "biryani",
+    "text": "Diverting ₹600 from takeout to savings is a vote for your future. Keep the money; conquer the temporary craving."
+  },
+  {
+    "id": "sushi_phys_1",
+    "type": "physiological",
+    "category": "sushi",
+    "text": "Sushi cravings are often driven by the salt-sugar balance in seasoned vinegared rice and soy sauce. It is a subtle but potent dopamine trigger."
+  },
+  {
+    "id": "sushi_phys_2",
+    "type": "physiological",
+    "category": "sushi",
+    "text": "The clean, aesthetic presentation of maki rolls triggers your brain's novelty centers. Try a visual distraction like the Focus Challenge."
+  },
+  {
+    "id": "sushi_fin_1",
+    "type": "financial",
+    "category": "sushi",
+    "text": "A good sushi platter easily costs ₹800. Saving this today is a massive stride toward your personal goals."
+  },
+  {
+    "id": "sushi_fin_2",
+    "type": "financial",
+    "category": "sushi",
+    "text": "Keep that ₹800. Cravings are temporary, but your bank balance is permanent. Reframe the wait as an investment."
+  },
+  {
+    "id": "sushi_phys_3",
+    "type": "physiological",
+    "category": "sushi",
+    "text": "Craving soy sauce and raw fish might indicate a mild sodium or healthy fat deficiency. Try eating a few walnuts or drinking water."
+  },
+  {
+    "id": "salad_phys_1",
+    "type": "physiological",
+    "category": "salad",
+    "text": "Even healthy salad cravings are often triggered by sugary dressings and crunchy, salty toppings. Your brain is seeking the crunch."
+  },
+  {
+    "id": "salad_phys_2",
+    "type": "physiological",
+    "category": "salad",
+    "text": "Anticipation of fresh greens is a positive health cue, but ordering it via apps carries high delivery markups. Eat fresh at home instead."
+  },
+  {
+    "id": "salad_fin_1",
+    "type": "financial",
+    "category": "salad",
+    "text": "An organic salad order is ₹350. You can buy a whole week of fresh groceries at home for the price of one delivered bowl."
+  },
+  {
+    "id": "salad_fin_2",
+    "type": "financial",
+    "category": "salad",
+    "text": "Diverting ₹350 from app delivery to your savings vault keeps your financial health as clean as your dietary goals."
+  },
+  {
+    "id": "salad_phys_3",
+    "type": "physiological",
+    "category": "salad",
+    "text": "The desire for crisp vegetables means your body wants micronutrients. Eat a piece of fruit at home to satisfy the cellular urge."
+  },
+  {
+    "id": "gen_phys_1",
+    "type": "physiological",
+    "category": "general",
+    "text": "Cravings are not commands. They are just electrical signals in your brain's habit loop. You have the power to observe them and let them pass."
+  },
+  {
+    "id": "gen_phys_2",
+    "type": "physiological",
+    "category": "general",
+    "text": "The peak of a food craving lasts only 10 to 15 minutes. By resisting this short window, you are literally rewiring your neural pathways."
+  },
+  {
+    "id": "gen_phys_3",
+    "type": "physiological",
+    "category": "general",
+    "text": "Dopamine is the neurotransmitter of anticipation, not satisfaction. The 'high' is in the ordering, not the eating. Break the loop."
+  },
+  {
+    "id": "gen_phys_4",
+    "type": "physiological",
+    "category": "general",
+    "text": "Dehydration is often masked as hunger. Drinking a glass of cold water can reduce craving intensity by up to 50% instantly."
+  },
+  {
+    "id": "gen_phys_5",
+    "type": "physiological",
+    "category": "general",
+    "text": "Stress releases cortisol, which tells your brain to seek calorie-dense comfort foods. Take ten box breaths to lower your stress response."
+  },
+  {
+    "id": "gen_phys_6",
+    "type": "physiological",
+    "category": "general",
+    "text": "When you browse food delivery apps, your brain enters a 'seeking' state, flooding you with dopamine. Closing the app cuts off the fuel source."
+  },
+  {
+    "id": "gen_phys_7",
+    "type": "physiological",
+    "category": "general",
+    "text": "Cravings are like waves: they build up, reach a peak, and then break. You don't have to fight the wave—just ride it out."
+  },
+  {
+    "id": "gen_phys_8",
+    "type": "physiological",
+    "category": "general",
+    "text": "An empty stomach releases ghrelin, the hunger hormone. It spikes rapidly but stabilizes. A small, healthy home snack resets it safely."
+  },
+  {
+    "id": "gen_fin_1",
+    "type": "financial",
+    "category": "general",
+    "text": "Every time you deflect a craving, you reclaim both your wealth and your health. It is a compounding investment in your future self."
+  },
+  {
+    "id": "gen_fin_2",
+    "type": "financial",
+    "category": "general",
+    "text": "Your savings vault is a reflection of your self-discipline. Watch the numbers grow and feel the pride of taking back control."
+  },
+  {
+    "id": "gen_fin_3",
+    "type": "financial",
+    "category": "general",
+    "text": "The average person spends ₹6,000/month on impulse food delivery. Redirecting this pays for a high-end gadget or a vacation every year."
+  },
+  {
+    "id": "gen_fin_4",
+    "type": "financial",
+    "category": "general",
+    "text": "Money saved is freedom purchased. By saying no to a temporary meal, you are saying yes to your long-term financial independence."
+  },
+  {
+    "id": "gen_fin_5",
+    "type": "financial",
+    "category": "general",
+    "text": "Reframe the wait: you are not depriving yourself of food; you are rewarding yourself with wealth and health."
+  },
+  {
+    "id": "gen_fin_6",
+    "type": "financial",
+    "category": "general",
+    "text": "Takeout food is gone in minutes and often leaves guilt. Saved money grows in your vault, providing security and peace of mind."
+  },
+  {
+    "id": "gen_fin_7",
+    "type": "financial",
+    "category": "general",
+    "text": "You are building a buffer of safety. Each rupee saved is a brick in your wall of financial security. Keep building."
+  },
+  {
+    "id": "gen_fin_8",
+    "type": "financial",
+    "category": "general",
+    "text": "Wealth isn't what you earn; it is what you keep. Deflecting takeout cravings is the easiest way to accelerate your net worth."
+  },
+  {
+    "id": "gen_phys_9",
+    "type": "physiological",
+    "category": "general",
+    "text": "Visualizing your long-term goals activates the prefrontal cortex, which naturally dampens the impulsive urges of the amygdala."
+  },
+  {
+    "id": "gen_phys_10",
+    "type": "physiological",
+    "category": "general",
+    "text": "A craving is just a temporary thought, not an emergency. Let it sit in the background while you focus on something else."
+  },
+  {
+    "id": "gen_fin_9",
+    "type": "financial",
+    "category": "general",
+    "text": "Look at your savings progress. You are proving to yourself that you are in charge, not the delivery app algorithms."
+  },
+  {
+    "id": "gen_fin_10",
+    "type": "financial",
+    "category": "general",
+    "text": "By holding out, you are reclaiming your hard-earned money from multi-billion dollar tech companies designed to exploit your impulses."
+  },
+  {
+    "id": "gen_phys_11",
+    "type": "physiological",
+    "category": "general",
+    "text": "Fast-food companies spend millions styling photos to trigger your primal feeding instincts. Recognize the manipulation and resist."
+  }
+]

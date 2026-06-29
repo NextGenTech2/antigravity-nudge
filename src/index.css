@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+@import "leaflet/dist/leaflet.css";
+@import "tailwindcss";
+
+@theme {
+  --color-brand-50: #EEF2FF;
+  --color-brand-100: #E0E7FF;
+  --color-brand-200: #C7D2FE;
+  --color-brand-300: #A5B4FC;
+  --color-brand-400: #818CF8;
+  --color-brand-500: #6366F1;
+  --color-brand-600: #4F46E5;
+  --color-brand-700: #4338CA;
+  --color-brand-800: #3730A3;
+  --color-brand-900: #312E81;
+
+  --color-darkbg: #0B0E14;      /* Deep charcoal/navy base */
+  --color-darkcard: #1C212E;    /* Elevated surface color */
+  --color-darkborder: #1E293B;  /* Slate-800 border */
+
+  --color-accent-pink: #FF2E93;
+  --color-accent-green: #10B981;
+  --color-accent-yellow: #F59E0B;
+
+  --font-sans: 'Outfit', 'Inter', 'system-ui', 'sans-serif';
+
+  --shadow-glass: 0 8px 32px 0 rgba(2, 4, 8, 0.5);
+  --shadow-glass-glow: 0 0 20px rgba(99, 102, 241, 0.15);
+  --shadow-accent-glow: 0 0 25px rgba(255, 46, 147, 0.25);
+  --shadow-success-glow: 0 0 25px rgba(16, 185, 129, 0.25);
+  --shadow-card-elevation: 0 12px 40px -8px rgba(2, 4, 8, 0.6), 0 4px 12px -3px rgba(2, 4, 8, 0.4);
+}
+
+@layer base {
+  html, body, #root {
+    @apply h-full w-full text-slate-100 overflow-hidden select-none;
+    font-family: 'Inter', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    background: linear-gradient(180deg, #0B0E14 0%, #161B22 100%) !important;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', sans-serif;
+  }
+}
+
+/* Global gradient override for screen containers */
+.bg-darkbg {
+  background: linear-gradient(180deg, #0B0E14 0%, #161B22 100%) !important;
+}
+
+/* Custom Scrollbar for premium feel */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.3);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.2);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.4);
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+  background: rgba(19, 26, 38, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-panel-light {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.glass-button {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-button:active {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(0.96);
+}
+
+.glass-input {
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
+  backdrop-filter: blur(4px);
+  transition: all 0.2s ease;
+}
+
+.glass-input:focus {
+  border-color: rgba(99, 102, 241, 0.5);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
+  outline: none;
+}
+
+/* Leaflet Map Customizations */
+.leaflet-container {
+  background: #090d16 !important;
+  width: 100%;
+  height: 100%;
+}
+
+.leaflet-bar {
+  border: none !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
+}
+
+.leaflet-bar a {
+  background-color: rgba(19, 26, 38, 0.8) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #f8fafc !important;
+  transition: all 0.2s ease !important;
+}
+
+.leaflet-bar a:hover {
+  background-color: rgba(30, 41, 59, 0.9) !important;
+}
+
+/* Custom Marker Styling */
+.rider-marker {
+  transition: all 0.3s linear;
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 15px rgba(255, 46, 147, 0.2); }
+  50% { box-shadow: 0 0 25px rgba(255, 46, 147, 0.5); }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s infinite;
+}
+
+@keyframes progress-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer-bg {
+  background: linear-gradient(90deg, #131a26 25%, #1e293b 50%, #131a26 75%);
+  background-size: 200% 100%;
+  animation: progress-shimmer 1.5s infinite;
+}
