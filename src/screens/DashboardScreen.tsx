@@ -1,10 +1,12 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { BarChart2, Calendar, PiggyBank, Heart, Award } from 'lucide-react';
 import { useAppStore } from '../store/useAppStore';
+import { DopamineCalculatorModal } from '../components/DopamineCalculatorModal';
 
 export const DashboardScreen: React.FC = () => {
   const { savings, history, deliveryStage } = useAppStore();
+  const [isCalcOpen, setIsCalcOpen] = React.useState(false);
 
   const totalCravings = history.length;
   const avgSaved = totalCravings > 0 ? Math.round(savings / totalCravings) : 0;
@@ -105,6 +107,25 @@ export const DashboardScreen: React.FC = () => {
         <div className="glass-panel rounded-2xl p-4 bg-darkcard/40 border-slate-800 flex flex-col justify-between">
           <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Avg. Saved</span>
           <span className="text-2xl font-black text-indigo-400 mt-2">₹{avgSaved}</span>
+        </div>
+      </div>
+
+      {/* Dopamine Assessment Hook */}
+      <div className="px-6 py-2">
+        <div
+          onClick={() => {
+            setIsCalcOpen(true);
+          }}
+          className="glass-panel rounded-2xl p-4 bg-gradient-to-r from-indigo-950/25 to-darkcard/40 border-indigo-500/15 shadow-glass-glow cursor-pointer hover:border-indigo-500/30 transition-all flex items-center gap-4 group"
+        >
+          <div className="h-11 w-11 bg-indigo-500/10 border border-indigo-500/20 rounded-xl flex items-center justify-center text-xl shrink-0 group-hover:scale-105 transition-transform">
+            🧠
+          </div>
+          <div className="flex-1 min-w-0">
+            <h4 className="text-[9px] font-bold text-indigo-400 uppercase tracking-widest">Self Assessment</h4>
+            <h3 className="text-xs font-bold text-slate-200 mt-0.5 group-hover:text-indigo-300 transition-colors">Dopamine & Spending Calculator</h3>
+            <p className="text-[10px] text-slate-400 mt-1 leading-normal">Analyze your ordering triggers and project your 10-year opportunity cost.</p>
+          </div>
         </div>
       </div>
 
@@ -216,6 +237,12 @@ export const DashboardScreen: React.FC = () => {
           </div>
         )}
       </div>
+
+      <AnimatePresence>
+        {isCalcOpen && (
+          <DopamineCalculatorModal isOpen={isCalcOpen} onClose={() => setIsCalcOpen(false)} />
+        )}
+      </AnimatePresence>
     </div>
   );
 };

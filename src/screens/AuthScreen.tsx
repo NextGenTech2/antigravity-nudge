@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ShieldAlert, Sparkles, LogIn, User } from 'lucide-react';
 import { useAppStore } from '../store/useAppStore';
 import { loginWithGoogle, isFirebaseConfigured } from '../services/firebase';
 import { haptics } from '../services/haptics';
+import { DopamineCalculatorModal } from '../components/DopamineCalculatorModal';
 
 export const AuthScreen: React.FC = () => {
   const { setUser } = useAppStore();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isCalcOpen, setIsCalcOpen] = useState(false);
 
   const handleGoogleLogin = async () => {
     haptics.lightTap();
@@ -88,7 +90,7 @@ export const AuthScreen: React.FC = () => {
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.4 }}
-        className="glass-panel rounded-2xl p-6 bg-darkcard/40 border-slate-800 text-center space-y-4 my-8"
+        className="glass-panel rounded-2xl p-6 bg-darkcard/40 border-slate-800 text-center space-y-4 my-4"
       >
         <h3 className="font-bold text-slate-200">How it works</h3>
         <p className="text-xs text-slate-400 leading-relaxed">
@@ -97,6 +99,31 @@ export const AuthScreen: React.FC = () => {
         <p className="text-xs text-slate-400 leading-relaxed">
           We'll simulate the delivery path in real-time, satisfy your brain's anticipation response, and redirect the saved funds to your vault.
         </p>
+      </motion.div>
+
+      {/* Dopamine Calculator Hook Card */}
+      <motion.div
+        initial={{ y: 25, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.45 }}
+        onClick={() => {
+          haptics.lightTap();
+          setIsCalcOpen(true);
+        }}
+        className="glass-panel rounded-2xl p-4 bg-gradient-to-br from-indigo-950/20 to-darkcard/40 border-indigo-500/15 shadow-glass-glow cursor-pointer hover:border-indigo-500/30 transition-all text-left flex items-center gap-4 group my-2"
+      >
+        <div className="h-11 w-11 bg-indigo-500/10 border border-indigo-500/20 rounded-xl flex items-center justify-center text-xl shrink-0 group-hover:scale-105 transition-transform">
+          🧠
+        </div>
+        <div className="flex-1 min-w-0">
+          <h4 className="text-[9px] font-bold text-indigo-400 uppercase tracking-widest">Self Assessment</h4>
+          <h3 className="text-xs font-bold text-slate-200 mt-0.5 group-hover:text-indigo-300 transition-colors">
+            Calculate Your Food Spend & Dopamine Hook
+          </h3>
+          <p className="text-[10px] text-slate-400 mt-1 leading-normal">
+            See your 10-year opportunity cost and diagnose your craving triggers.
+          </p>
+        </div>
       </motion.div>
 
       {/* Auth Actions */}
@@ -138,6 +165,12 @@ export const AuthScreen: React.FC = () => {
           Zero real-world payments. Fully local cognitive training tool.
         </p>
       </motion.div>
+
+      <AnimatePresence>
+        {isCalcOpen && (
+          <DopamineCalculatorModal isOpen={isCalcOpen} onClose={() => setIsCalcOpen(false)} />
+        )}
+      </AnimatePresence>
     </div>
   );
 };
