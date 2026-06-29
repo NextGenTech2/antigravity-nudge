@@ -14,10 +14,12 @@ interface HomeScreenProps {
 const CATEGORIES = [
   { id: 'all', label: 'All', emoji: '🍽️' },
   { id: 'burger', label: 'Burgers', emoji: '🍔' },
-  { id: 'sushi', label: 'Sushi', emoji: '🍣' },
   { id: 'pizza', label: 'Pizza', emoji: '🍕' },
-  { id: 'healthy', label: 'Healthy', emoji: '🥗' },
+  { id: 'dessert', label: 'Desserts', emoji: '🍰' },
+  { id: 'snack', label: 'Munchies', emoji: '🍿' },
   { id: 'indian', label: 'Indian', emoji: '🍛' },
+  { id: 'healthy', label: 'Healthy', emoji: '🥗' },
+  { id: 'sushi', label: 'Sushi', emoji: '🍣' },
 ];
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectRestaurant }) => {

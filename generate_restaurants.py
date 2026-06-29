@@ -11,7 +11,9 @@ CUISINES_POOL = [
     {"name": "Pizza, Fast Food, Italian", "category_match": "pizza", "image_keyword": "pizza"},
     {"name": "Chinese, Asian, Noodles", "category_match": "chinese", "image_keyword": "noodles"},
     {"name": "Sushi, Japanese, Pan-Asian", "category_match": "sushi", "image_keyword": "sushi"},
-    {"name": "Healthy Salad, Continental", "category_match": "salad", "image_keyword": "salad"}
+    {"name": "Healthy Salad, Continental", "category_match": "salad", "image_keyword": "salad"},
+    {"name": "Desserts, Ice Cream, Bakery", "category_match": "dessert", "image_keyword": "dessert"},
+    {"name": "Munchies, Late Night Snacks", "category_match": "snack", "image_keyword": "sides"}
 ]
 
 RESTAURANT_PREFIXES = [
@@ -28,12 +30,13 @@ RESTAURANT_SUFFIXES = {
     "Pizza, Fast Food, Italian": ["Pizzeria", "Trattoria", "Oven", "Slice", "Woodfire", "Crust"],
     "Chinese, Asian, Noodles": ["Wok", "Panda", "Bowl", "Wall", "House", "Garden", "Canton"],
     "Sushi, Japanese, Pan-Asian": ["Zen Sushi", "Tokyo Dine", "Maki", "Ninja", "Asian Hub"],
-    "Healthy Salad, Continental": ["Salad Co.", "Green Bistro", "Organic Bowl", "Freshery", "Leafy"]
+    "Healthy Salad, Continental": ["Salad Co.", "Green Bistro", "Organic Bowl", "Freshery", "Leafy"],
+    "Desserts, Ice Cream, Bakery": ["Creamery", "Bakery", "Dessert Bar", "Waffle Co.", "Pastry Shop", "Sweet Haven"],
+    "Munchies, Late Night Snacks": ["Munchies", "Midnight Express", "Snack Stop", "Late Night Bites", "Pantry", "Craves"]
 }
 
 # ============================================================
 # CUISINE-SPECIFIC MENU POOLS
-# Each cuisine has its own relevant items so menus make sense
 # ============================================================
 
 BURGER_ITEMS = [
@@ -227,6 +230,42 @@ SALAD_ITEMS = [
     {"name": "Coconut Water", "price_min": 60, "price_max": 90, "desc": "Fresh tender coconut water.", "image_keyword": "coconut water"},
 ]
 
+DESSERT_SHOP_ITEMS = [
+    {"name": "Gourmet Chocolate Fudge Brownie", "price_min": 120, "price_max": 180, "desc": "Rich, fudgy chocolate brownie loaded with chocolate chunks and served warm.", "image_keyword": "chocolate brownie"},
+    {"name": "Sizzling Brownie with Ice Cream", "price_min": 180, "price_max": 260, "desc": "Warm chocolate brownie served on a sizzling hot plate with vanilla ice cream and hot fudge.", "image_keyword": "sizzling brownie"},
+    {"name": "Belgian Chocolate Waffle", "price_min": 140, "price_max": 220, "desc": "Crisp golden waffle drizzled with premium Belgian milk chocolate and chocolate chips.", "image_keyword": "chocolate waffle"},
+    {"name": "Nutella Strawberry Waffle", "price_min": 160, "price_max": 240, "desc": "Freshly baked waffle spread with Nutella, topped with fresh sliced strawberries.", "image_keyword": "waffle"},
+    {"name": "Classic Chocolate Truffle Pastry", "price_min": 99, "price_max": 149, "desc": "Layered chocolate sponge cake filled with rich chocolate ganache and chocolate shavings.", "image_keyword": "chocolate pastry"},
+    {"name": "Red Velvet Pastry", "price_min": 110, "price_max": 160, "desc": "Soft red velvet sponge layered with smooth and tangy cream cheese frosting.", "image_keyword": "red velvet pastry"},
+    {"name": "Blueberry Cheesecake Slice", "price_min": 199, "price_max": 279, "desc": "Creamy New York style cheesecake topped with sweet blueberry compote.", "image_keyword": "cheesecake"},
+    {"name": "Double Chocolate Donut", "price_min": 89, "price_max": 129, "desc": "Soft ring donut glazed with dark chocolate and topped with chocolate sprinkles.", "image_keyword": "donut"},
+    {"name": "Death by Chocolate Ice Cream", "price_min": 130, "price_max": 190, "desc": "Double scoop of rich chocolate ice cream, chocolate cake pieces, and chocolate sauce.", "image_keyword": "chocolate ice cream"},
+    {"name": "Alphonso Mango Ice Cream", "price_min": 99, "price_max": 149, "desc": "Creamy, refreshing ice cream made with real Alphonso mango pulp.", "image_keyword": "mango ice cream"},
+    {"name": "Vanilla Bean Ice Cream (Double Scoop)", "price_min": 80, "price_max": 120, "desc": "Classic creamy vanilla ice cream made with real Madagascar vanilla beans.", "image_keyword": "vanilla ice cream"},
+    {"name": "Mint Chocolate Chip Ice Cream", "price_min": 99, "price_max": 149, "desc": "Cool mint-flavored ice cream loaded with rich dark chocolate chips.", "image_keyword": "mint ice cream"},
+    {"name": "Red Velvet Cupcake", "price_min": 79, "price_max": 119, "desc": "Miniature red velvet cake topped with a swirl of cream cheese frosting.", "image_keyword": "cupcake"},
+    {"name": "Choco Lava Cupcake", "price_min": 89, "price_max": 139, "desc": "Soft chocolate cake with a warm, liquid chocolate center.", "image_keyword": "lava cake"},
+    {"name": "Oreo Milkshake", "price_min": 129, "price_max": 179, "desc": "Rich cookies and cream milkshake blended with crushed Oreo cookies.", "image_keyword": "oreo shake"},
+    {"name": "Hot Chocolate Classic", "price_min": 110, "price_max": 160, "desc": "Warm, rich, and creamy hot chocolate topped with marshmallows.", "image_keyword": "hot chocolate"},
+]
+
+SNACK_ITEMS = [
+    {"name": "Midnight Masala Maggi", "price_min": 70, "price_max": 110, "desc": "Classic instant noodles cooked with extra veggies and secret masala spices.", "image_keyword": "noodles"},
+    {"name": "Double Cheese Maggi", "price_min": 99, "price_max": 149, "desc": "Instant masala noodles loaded with double melted cheddar and mozzarella cheese.", "image_keyword": "cheese noodles"},
+    {"name": "Garlic Cheese Toast (3 Pcs)", "price_min": 110, "price_max": 160, "desc": "Crispy toasted bread topped with garlic butter and melted cheese.", "image_keyword": "garlic bread"},
+    {"name": "Classic Salted Potato Chips", "price_min": 40, "price_max": 60, "desc": "Crispy, thin-cut salted potato chips served in a large bowl.", "image_keyword": "chips"},
+    {"name": "Peri Peri French Fries", "price_min": 110, "price_max": 150, "desc": "Crispy potato fries tossed in hot and tangy peri peri seasoning.", "image_keyword": "fries"},
+    {"name": "Butter Popcorn Large", "price_min": 90, "price_max": 130, "desc": "Freshly popped corn kernels tossed in warm, melted butter.", "image_keyword": "popcorn"},
+    {"name": "Loaded Nachos with Salsa", "price_min": 149, "price_max": 209, "desc": "Crispy tortilla chips topped with warm cheese sauce, sour cream, and fresh tomato salsa.", "image_keyword": "nachos"},
+    {"name": "Premium Milk Chocolate Bar", "price_min": 80, "price_max": 120, "desc": "Smooth and creamy milk chocolate bar made with premium cocoa.", "image_keyword": "chocolate"},
+    {"name": "Dark Chocolate Almond Bar", "price_min": 99, "price_max": 149, "desc": "Rich 70% dark chocolate bar loaded with roasted whole almonds.", "image_keyword": "dark chocolate"},
+    {"name": "Chocolate Chip Cookies (4 Pcs)", "price_min": 80, "price_max": 120, "desc": "Freshly baked cookies loaded with melted chocolate chips.", "image_keyword": "cookies"},
+    {"name": "Nutella Spread Toast (2 Pcs)", "price_min": 79, "price_max": 119, "desc": "Toasted bread generously spread with creamy Nutella hazelnut spread.", "image_keyword": "nutella toast"},
+    {"name": "Hot Chocolate Classic", "price_min": 110, "price_max": 160, "desc": "Warm, rich, and creamy hot chocolate topped with marshmallows.", "image_keyword": "hot chocolate"},
+    {"name": "Cold Coffee with Ice Cream", "price_min": 119, "price_max": 169, "desc": "Chilled blended espresso with milk, sugar, and a scoop of vanilla ice cream.", "image_keyword": "cold coffee"},
+    {"name": "Pepsi / Coke (330ml)", "price_min": 40, "price_max": 60, "desc": "Chilled carbonated cola.", "image_keyword": "cola"},
+]
+
 # Map cuisine names to their specific item pools
 CUISINE_MENU_MAP = {
     "Biryani, North Indian": BIRYANI_ITEMS,
@@ -237,6 +276,8 @@ CUISINE_MENU_MAP = {
     "Chinese, Asian, Noodles": CHINESE_ITEMS,
     "Sushi, Japanese, Pan-Asian": SUSHI_ITEMS,
     "Healthy Salad, Continental": SALAD_ITEMS,
+    "Desserts, Ice Cream, Bakery": DESSERT_SHOP_ITEMS,
+    "Munchies, Late Night Snacks": SNACK_ITEMS
 }
 
 def generate_restaurants():
