@@ -639,7 +639,6 @@ export const DashboardScreen: React.FC = () => {
             >
               {goals.map((goal) => {
                 const goalLogs = logsByGoal[goal.id] || [];
-                const totalSavedForGoal = goalLogs.reduce((sum, log) => sum + log.amountSaved, 0);
                 const isExpanded = expandedGoal === goal.id;
 
                 return (
