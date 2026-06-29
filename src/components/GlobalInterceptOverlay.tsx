@@ -19,8 +19,6 @@ const GAME_COLOR_PALETTE = [
 export const GlobalInterceptOverlay: React.FC = () => {
   const { globalIntercept, stopGlobalIntercept } = useAppStore();
 
-  if (globalIntercept === 'NONE') return null;
-
   // --- BREATHING INTERVENTION STATES ---
   const [breatheTime, setBreatheTime] = useState(60);
   const [isBreatheFinished, setIsBreatheFinished] = useState(false);
@@ -122,6 +120,9 @@ export const GlobalInterceptOverlay: React.FC = () => {
     haptics.successNotification();
     stopGlobalIntercept();
   };
+
+  // Early return must be below all hook declarations
+  if (globalIntercept === 'NONE') return null;
 
   return (
     <div className="fixed inset-0 z-[999999] bg-darkbg flex flex-col justify-between p-6 text-center select-none">
