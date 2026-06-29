@@ -41,7 +41,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectRestaurant }) =>
 
     const matchesSearch =
       r.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      r.cuisine.toLowerCase().includes(searchQuery.toLowerCase());
+      r.cuisine.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      r.menu.some((item) => item.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
     return matchesCategory && matchesSearch;
   });
