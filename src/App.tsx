@@ -66,16 +66,17 @@ export const App: React.FC = () => {
     startDelivery,
     setDeliveryStage,
     completeDelivery,
-    globalIntercept
+    globalIntercept,
+    currentTickingSavings,
+    setCurrentTickingSavings
   } = useAppStore();
   
-  const [activeScreen, setActiveScreen] = useState<ScreenType>('browse');
+  const [activeScreen, setActiveScreen] = useState<ScreenType>('dashboard');
   const [activeRestaurant, setActiveRestaurant] = useState<Restaurant | null>(null);
   
   // Simulation Live States
   const [stageProgress, setStageProgress] = useState(0);
   const [eta, setEta] = useState(25);
-  const [currentSavings, setCurrentSavings] = useState(0);
   const [isLogModalOpen, setIsLogModalOpen] = useState(false);
   const [shouldBounce, setShouldBounce] = useState(false);
   const [isCartExpanded, setIsCartExpanded] = useState(false);
@@ -231,7 +232,7 @@ export const App: React.FC = () => {
 
       // Update continuous savings counter
       const savingsFraction = Math.min(1, elapsed / total);
-      setCurrentSavings(Math.floor(activeOrder.totalSaved * savingsFraction));
+      setCurrentTickingSavings(Math.floor(activeOrder.totalSaved * savingsFraction));
 
       // Handle stage transitions
       if (newStage !== deliveryStage) {
@@ -359,14 +360,14 @@ export const App: React.FC = () => {
               {/* Dynamic Progress-Fill Background */}
               <div
                 className="absolute left-0 top-0 bottom-0 bg-indigo-500/15 rounded-full -z-10 transition-all duration-500 ease-out"
-                style={{ width: `${(currentSavings / activeOrder.totalSaved) * 100}%` }}
+                style={{ width: `${(currentTickingSavings / activeOrder.totalSaved) * 100}%` }}
               />
 
               <div className="flex items-center gap-3.5">
                 <span className="text-2xl animate-bounce leading-none">🚴</span>
                 <div className="text-left flex items-center gap-2 flex-wrap">
                   <span className="text-[10px] font-black uppercase tracking-wider text-indigo-400">
-                    Tracking: ₹{currentSavings} Saved
+                    Tracking: ₹{currentTickingSavings} Saved
                   </span>
                   <span className="text-slate-600 text-xs font-bold">•</span>
                   <span className="text-[10px] text-slate-300 font-extrabold uppercase tracking-wider">
@@ -393,7 +394,7 @@ export const App: React.FC = () => {
                 stage={deliveryStage}
                 stageProgress={stageProgress}
                 eta={eta}
-                currentSavings={currentSavings}
+                currentSavings={currentTickingSavings}
                 restaurantName={activeOrder.restaurantName}
                 cuisine={activeOrder.cuisine}
               />

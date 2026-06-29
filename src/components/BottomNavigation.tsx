@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Compass, BarChart2, Settings, Lock, AlertCircle } from 'lucide-react';
+import { Compass, LayoutDashboard, Settings, Lock, AlertCircle } from 'lucide-react';
 import { haptics } from '../services/haptics';
 
 export type ScreenType = 'browse' | 'dashboard' | 'settings';
@@ -19,8 +19,8 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
   const [showTooltip, setShowTooltip] = useState(false);
 
   const navItems = [
+    { id: 'dashboard' as ScreenType, label: 'Dashboard', icon: LayoutDashboard },
     { id: 'browse' as ScreenType, label: 'Browse', icon: Compass },
-    { id: 'dashboard' as ScreenType, label: 'Savings', icon: BarChart2 },
     { id: 'settings' as ScreenType, label: 'Settings', icon: Settings },
   ];
 

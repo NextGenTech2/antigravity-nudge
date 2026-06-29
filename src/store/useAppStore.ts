@@ -74,6 +74,7 @@ interface AppState {
   deliveryStage: DeliveryStageType;
   deliveryStartTime: number | null;
   activeOrder: ActiveOrder | null;
+  currentTickingSavings: number;
   
   // Auth Actions
   setUser: (user: UserProfile | null) => void;
@@ -95,6 +96,7 @@ interface AppState {
     items: { name: string; quantity: number; price: number }[]
   ) => void;
   setDeliveryStage: (stage: DeliveryStageType) => void;
+  setCurrentTickingSavings: (amount: number) => void;
   setActiveOrderTrigger: (trigger: CravingLog['trigger']) => void;
   completeDelivery: (trigger: CravingLog['trigger'], notes: string) => void;
   
@@ -139,10 +141,12 @@ export const useAppStore = create<AppState>()(
       deliveryStage: 'IDLE',
       deliveryStartTime: null,
       activeOrder: null,
+      currentTickingSavings: 0,
 
       setUser: (user) => set({ user }),
-      logout: () => set({ user: null, cart: null, deliveryStage: 'IDLE', deliveryStartTime: null, activeOrder: null }),
-
+      logout: () => set({ user: null, cart: null, deliveryStage: 'IDLE', deliveryStartTime: null, activeOrder: null, currentTickingSavings: 0 }),
+      
+      // ... (cart actions) ...
       addToCart: (restaurantId, restaurantName, item) => set((state) => {
         const currentCart = state.cart;
         if (currentCart && currentCart.restaurantId !== restaurantId) {
@@ -212,6 +216,7 @@ export const useAppStore = create<AppState>()(
       startDelivery: (restaurantId, restaurantName, cuisine, totalSaved, items) => set({
         deliveryStage: 'PREPARING',
         deliveryStartTime: Date.now(),
+        currentTickingSavings: 0,
         activeOrder: {
           restaurantId,
           restaurantName,
@@ -224,6 +229,8 @@ export const useAppStore = create<AppState>()(
       }),
 
       setDeliveryStage: (stage) => set({ deliveryStage: stage }),
+
+      setCurrentTickingSavings: (amount) => set({ currentTickingSavings: amount }),
 
       setActiveOrderTrigger: (trigger) => set((state) => {
         if (!state.activeOrder) return {};
@@ -263,6 +270,7 @@ export const useAppStore = create<AppState>()(
           deliveryStage: 'IDLE',
           deliveryStartTime: null,
           activeOrder: null,
+          currentTickingSavings: 0,
         };
       }),
 
@@ -301,6 +309,7 @@ export const useAppStore = create<AppState>()(
         deliveryStage: 'IDLE',
         deliveryStartTime: null,
         activeOrder: null,
+        currentTickingSavings: 0,
       }),
     }),
     {
