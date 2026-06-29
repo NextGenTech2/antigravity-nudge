@@ -154,7 +154,7 @@ export const MenuScreen: React.FC<MenuScreenProps> = ({ restaurant, onBack }) =>
   );
 
   return (
-    <div className="w-full h-full flex flex-col bg-darkbg overflow-hidden">
+    <div className="w-full h-full flex flex-col bg-darkbg overflow-y-auto pb-28">
       {/* Cover Image & Back Button Header */}
       <div className="relative h-56 w-full shrink-0 bg-slate-950">
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-darkbg to-transparent z-10" />
@@ -214,7 +214,7 @@ export const MenuScreen: React.FC<MenuScreenProps> = ({ restaurant, onBack }) =>
       </div>
 
       {/* Menu Grid */}
-      <div className="flex-1 overflow-y-auto px-6 pt-4 pb-24 space-y-4">
+      <div className="px-6 pt-4 space-y-4">
         {restaurant.menu.map((item) => (
           <MenuItemRow
             key={item.id}
