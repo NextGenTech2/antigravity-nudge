@@ -157,8 +157,8 @@ export const imageGenerator = {
   /**
    * Generates a header image URL for a restaurant.
    */
-  getRestaurantHeaderImage: (restaurantId: string, _restaurantName: string, cuisine: string): string => {
-    const promptText = `Modern cozy restaurant facade interior, aesthetic decoration, warm lighting, architectural digest, ${cuisine} restaurant, professional photography`;
+  getRestaurantHeaderImage: (restaurantId: string, restaurantName: string, cuisine: string): string => {
+    const promptText = `Modern cozy restaurant facade interior, aesthetic decoration, warm lighting, architectural digest, ${restaurantName} ${cuisine} restaurant, professional photography`;
     const seed = getSeedFromId(restaurantId);
     const encodedPrompt = encodeURIComponent(promptText);
     return `https://image.pollinations.ai/prompt/${encodedPrompt}?width=800&height=500&nologo=true&seed=${seed}`;

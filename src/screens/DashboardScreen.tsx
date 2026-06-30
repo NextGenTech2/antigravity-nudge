@@ -12,8 +12,13 @@ import {
 } from 'lucide-react';
 import { useAppStore } from '../store/useAppStore';
 import { haptics } from '../services/haptics';
+import { DopamineCalculatorModal } from '../components/DopamineCalculatorModal';
 
-export const DashboardScreen: React.FC = () => {
+export interface DashboardScreenProps {
+  onNavigate?: (screen: 'browse' | 'dashboard' | 'settings') => void;
+}
+
+export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) => {
   const { 
     savings, 
     history, 
@@ -29,6 +34,8 @@ export const DashboardScreen: React.FC = () => {
   const [reportsTab, setReportsTab] = useState<'trigger' | 'goal' | 'trend'>('trigger');
   const [expandedTrigger, setExpandedTrigger] = useState<string | null>(null);
   const [expandedGoal, setExpandedGoal] = useState<string | null>(null);
+  const [isCalcOpen, setIsCalcOpen] = useState(false);
+  const [isVaultExpanded, setIsVaultExpanded] = useState(false);
 
   // 1. Mindful Streak Calculation
   const calculateStreak = () => {
@@ -144,8 +151,9 @@ export const DashboardScreen: React.FC = () => {
             <button
               onClick={() => {
                 haptics.lightTap();
-                const browseTab = document.querySelector('button[onClick*="browse"]') as HTMLButtonElement;
-                if (browseTab) browseTab.click();
+                if (onNavigate) {
+                  onNavigate('browse');
+                }
               }}
               className="py-2 px-3.5 bg-indigo-600 hover:bg-indigo-500 text-[10px] font-black uppercase tracking-wider text-white rounded-lg flex items-center gap-1 shadow-glass-glow transition-all"
             >
@@ -187,19 +195,27 @@ export const DashboardScreen: React.FC = () => {
 
       {/* Persistent Goals Vault */}
       <div className="px-6 py-1 space-y-3">
-        <h3 className="text-xs font-black text-slate-350 uppercase tracking-wider flex items-center gap-1.5">
-          <span>🎯</span> Savings Goals Vault
+        <h3 
+          onClick={() => { haptics.lightTap(); setIsVaultExpanded(!isVaultExpanded); }}
+          className="text-xs font-black text-slate-350 uppercase tracking-wider flex items-center justify-between cursor-pointer"
+        >
+          <div className="flex items-center gap-1.5">
+            <span>🎯</span> Savings Goals Vault
+          </div>
+          {isVaultExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
         </h3>
 
+        {/* Top Goal (Highest Savings) - Always Visible */}
         <div className="grid grid-cols-1 gap-2.5">
-          {goals.map((goal) => {
-            const isActive = activeGoalId === goal.id;
-            const progressPercent = Math.min(100, Math.round((goal.saved / goal.target) * 100));
-
+          {(() => {
+            const sortedGoals = [...goals].sort((a, b) => b.saved - a.saved);
+            const topGoal = sortedGoals[0];
+            const isActive = activeGoalId === topGoal.id;
+            const progressPercent = Math.min(100, Math.round((topGoal.saved / topGoal.target) * 100));
             return (
               <div
-                key={goal.id}
-                onClick={() => handleGoalSelect(goal.id)}
+                key={topGoal.id}
+                onClick={() => handleGoalSelect(topGoal.id)}
                 className={`p-4 rounded-2xl border transition-all duration-300 cursor-pointer flex flex-col gap-2.5 ${
                   isActive
                     ? 'bg-indigo-950/15 border-indigo-500/40 shadow-glass-glow'
@@ -208,9 +224,9 @@ export const DashboardScreen: React.FC = () => {
               >
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-2">
-                    <span className="text-lg">{goal.emoji}</span>
+                    <span className="text-lg">{topGoal.emoji}</span>
                     <span className={`text-xs font-black ${isActive ? 'text-slate-100' : 'text-slate-300'}`}>
-                      {goal.name}
+                      {topGoal.name}
                     </span>
                   </div>
                   {isActive && (
@@ -220,7 +236,6 @@ export const DashboardScreen: React.FC = () => {
                   )}
                 </div>
 
-                {/* Progress bar */}
                 <div className="space-y-1">
                   <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden">
                     <div 
@@ -229,14 +244,101 @@ export const DashboardScreen: React.FC = () => {
                     />
                   </div>
                   <div className="flex justify-between text-[9px] font-bold font-mono text-slate-500">
-                    <span>₹{goal.saved} / ₹{goal.target}</span>
+                    <span>₹{topGoal.saved} / ₹{topGoal.target}</span>
                     <span className={isActive ? 'text-emerald-400 font-extrabold' : ''}>{progressPercent}%</span>
                   </div>
                 </div>
               </div>
             );
-          })}
+          })()}
         </div>
+
+        {/* Collapsible Other Goals */}
+        <AnimatePresence>
+          {isVaultExpanded && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="overflow-hidden"
+            >
+              <div className="grid grid-cols-1 gap-2.5 pt-1 pb-2">
+                {(() => {
+                  const sortedGoals = [...goals].sort((a, b) => b.saved - a.saved);
+                  const otherGoals = sortedGoals.slice(1);
+                  return otherGoals.map((goal) => {
+                    const isActive = activeGoalId === goal.id;
+                    const progressPercent = Math.min(100, Math.round((goal.saved / goal.target) * 100));
+
+                    return (
+                      <div
+                        key={goal.id}
+                        onClick={() => handleGoalSelect(goal.id)}
+                        className={`p-4 rounded-2xl border transition-all duration-300 cursor-pointer flex flex-col gap-2.5 ${
+                          isActive
+                            ? 'bg-indigo-950/15 border-indigo-500/40 shadow-glass-glow'
+                            : 'bg-darkcard/40 border-slate-850 hover:border-slate-800'
+                        }`}
+                      >
+                        <div className="flex justify-between items-center">
+                          <div className="flex items-center gap-2">
+                            <span className="text-lg">{goal.emoji}</span>
+                            <span className={`text-xs font-black ${isActive ? 'text-slate-100' : 'text-slate-300'}`}>
+                              {goal.name}
+                            </span>
+                          </div>
+                          {isActive && (
+                            <span className="bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                              Target Goal
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Progress bar */}
+                        <div className="space-y-1">
+                          <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden">
+                            <div 
+                              className="h-full bg-gradient-to-r from-indigo-500 to-emerald-500" 
+                              style={{ width: `${progressPercent}%` }}
+                            />
+                          </div>
+                          <div className="flex justify-between text-[9px] font-bold font-mono text-slate-500">
+                            <span>₹{goal.saved} / ₹{goal.target}</span>
+                            <span className={isActive ? 'text-emerald-400 font-extrabold' : ''}>{progressPercent}%</span>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  });
+                })()}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Dopamine Calculator Hook Card (Moved from Settings) */}
+      <div className="px-6 py-2">
+        <motion.div
+          onClick={() => {
+            haptics.lightTap();
+            setIsCalcOpen(true);
+          }}
+          className="glass-panel rounded-2xl p-4 bg-gradient-to-br from-indigo-950/20 to-darkcard/40 border-indigo-500/15 shadow-glass-glow cursor-pointer hover:border-indigo-500/30 transition-all text-left flex items-center gap-4 group"
+        >
+          <div className="h-11 w-11 bg-indigo-500/10 border border-indigo-500/20 rounded-xl flex items-center justify-center text-xl shrink-0 group-hover:scale-105 transition-transform">
+            🧠
+          </div>
+          <div className="flex-1 min-w-0">
+            <h4 className="text-[9px] font-bold text-indigo-400 uppercase tracking-widest">Self Assessment</h4>
+            <h3 className="text-xs font-bold text-slate-200 mt-0.5 group-hover:text-indigo-300 transition-colors">
+              Calculate Your Food Spend & Dopamine Hook
+            </h3>
+            <p className="text-[10px] text-slate-400 mt-1 leading-normal">
+              See your 10-year opportunity cost and diagnose your craving triggers.
+            </p>
+          </div>
+        </motion.div>
       </div>
 
       {/* Gamification Level Milestone Card */}
@@ -337,6 +439,24 @@ export const DashboardScreen: React.FC = () => {
 
   // Render the Detailed Reports sub-screen
   const renderReportsView = () => {
+    const handleReportsDragEnd = (_event: any, info: any) => {
+      const swipeThreshold = 50;
+      const tabs = ['trigger', 'goal', 'trend'] as const;
+      const currentIdx = tabs.indexOf(reportsTab);
+
+      if (info.offset.x < -swipeThreshold) {
+        if (currentIdx < tabs.length - 1) {
+          haptics.lightTap();
+          setReportsTab(tabs[currentIdx + 1]);
+        }
+      } else if (info.offset.x > swipeThreshold) {
+        if (currentIdx > 0) {
+          haptics.lightTap();
+          setReportsTab(tabs[currentIdx - 1]);
+        }
+      }
+    };
+
     // Group history by Trigger
     const logsByTrigger = history.reduce((acc, log) => {
       acc[log.trigger] = acc[log.trigger] || [];
@@ -489,7 +609,7 @@ export const DashboardScreen: React.FC = () => {
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: 20 }}
-        className="px-6 space-y-5"
+        className={`px-6 space-y-5 transition-all duration-300 ${deliveryStage !== 'IDLE' ? 'pt-24' : 'pt-4'}`}
       >
         {/* Back Button and Sub-page Header */}
         <div className="flex items-center gap-3">
@@ -529,8 +649,15 @@ export const DashboardScreen: React.FC = () => {
         </div>
 
         {/* Tab Content */}
-        <AnimatePresence mode="wait">
-          {reportsTab === 'trigger' && (
+        <motion.div
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.2}
+          onDragEnd={handleReportsDragEnd}
+          className="w-full cursor-grab active:cursor-grabbing"
+        >
+          <AnimatePresence mode="wait">
+            {reportsTab === 'trigger' && (
             <motion.div
               key="trigger-tab"
               initial={{ opacity: 0, y: 5 }}
@@ -742,7 +869,8 @@ export const DashboardScreen: React.FC = () => {
               {renderTrendGraph()}
             </motion.div>
           )}
-        </AnimatePresence>
+          </AnimatePresence>
+        </motion.div>
       </motion.div>
     );
   };
@@ -752,7 +880,7 @@ export const DashboardScreen: React.FC = () => {
       
       {/* Top Brand Header */}
       {activeView === 'dashboard' && (
-        <div className="p-6 pb-2 pt-8 shrink-0 bg-darkbg">
+        <div className={`p-6 pb-2 shrink-0 bg-darkbg transition-all duration-300 ${deliveryStage !== 'IDLE' ? 'pt-24' : 'pt-8'}`}>
           <h1 className="text-2xl font-black text-slate-100 tracking-tight flex items-center gap-2">
             <Target className="text-indigo-400" />
             Focus Hub
@@ -770,6 +898,11 @@ export const DashboardScreen: React.FC = () => {
         </AnimatePresence>
       </div>
 
+      <AnimatePresence>
+        {isCalcOpen && (
+          <DopamineCalculatorModal isOpen={isCalcOpen} onClose={() => setIsCalcOpen(false)} />
+        )}
+      </AnimatePresence>
     </div>
   );
 };

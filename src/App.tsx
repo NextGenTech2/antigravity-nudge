@@ -376,8 +376,8 @@ export const App: React.FC = () => {
                 </div>
               </div>
               
-              <div className="flex items-center gap-1 bg-indigo-500/20 border border-indigo-500/30 px-2.5 py-0.5 rounded-full">
-                <span className="text-[9px] text-indigo-300 font-bold uppercase tracking-wider">ETA: {eta}m</span>
+              <div className="flex items-center gap-1 bg-indigo-500/20 border border-indigo-500/30 px-2.5 py-0.5 rounded-full shrink-0 whitespace-nowrap">
+                <span className="text-[9px] text-indigo-300 font-bold uppercase tracking-wider">ETA: {eta}M</span>
               </div>
             </motion.div>
           </motion.div>
@@ -417,7 +417,7 @@ export const App: React.FC = () => {
           </>
         )}
 
-        {activeScreen === 'dashboard' && <DashboardScreen />}
+        {activeScreen === 'dashboard' && <DashboardScreen onNavigate={setActiveScreen} />}
 
         {activeScreen === 'settings' && <SettingsScreen />}
       </div>

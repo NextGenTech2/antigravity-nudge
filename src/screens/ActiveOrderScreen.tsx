@@ -466,7 +466,7 @@ export const ActiveOrderScreen: React.FC<ActiveOrderScreenProps> = ({
       </div>
 
       {/* Main Stage Panel */}
-      <div className="flex-1 min-h-0 flex flex-col justify-center items-center p-6 relative">
+      <div className="flex-1 flex flex-col justify-center items-center p-6 py-8 relative min-h-min">
         {stage === 'EN_ROUTE' ? (
           /* Map Stage with Intervention HUD Overlay */
           <div className="w-full h-full rounded-2xl overflow-hidden border border-slate-800/80 relative shadow-glass bg-slate-950">
@@ -882,7 +882,7 @@ export const ActiveOrderScreen: React.FC<ActiveOrderScreenProps> = ({
               animate={{ opacity: 0.6 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsAllocationOpen(false)}
-              className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm z-[1000]"
+              className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm z-[99998]"
             />
 
             {/* Drawer */}
@@ -891,7 +891,7 @@ export const ActiveOrderScreen: React.FC<ActiveOrderScreenProps> = ({
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 220 }}
-              className="absolute bottom-0 left-0 right-0 glass-panel bg-darkcard rounded-t-3xl border-t border-slate-900 shadow-glass z-[1001] p-6 pb-12 flex flex-col gap-5 max-h-[85vh] overflow-y-auto"
+              className="absolute bottom-0 left-0 right-0 glass-panel bg-darkcard rounded-t-3xl border-t border-slate-900 shadow-glass z-[99999] p-6 pb-12 flex flex-col gap-5 max-h-[85vh] overflow-y-auto"
             >
               <div className="flex justify-between items-center border-b border-slate-900 pb-3">
                 <div className="flex items-center gap-2">

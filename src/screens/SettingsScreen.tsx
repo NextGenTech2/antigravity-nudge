@@ -81,8 +81,6 @@ export const SettingsScreen: React.FC = () => {
             <LogOut size={16} />
           </button>
         </div>
-      </div>
-
       {/* Haptics Settings */}
       <div className="px-6 py-3">
         <div className="glass-panel rounded-2xl p-4 bg-darkcard/40 border-slate-800 space-y-4">
