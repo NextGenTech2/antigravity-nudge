@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Settings, Key, HelpCircle, Eye, EyeOff, LogOut, Trash2, Smartphone, User } from 'lucide-react';
+import { Settings, Key, HelpCircle, Eye, EyeOff, LogOut, Trash2, Smartphone, User, RefreshCw } from 'lucide-react';
 import { useAppStore } from '../store/useAppStore';
 import { logoutUser } from '../services/firebase';
 import { haptics } from '../services/haptics';
@@ -197,6 +197,27 @@ export const SettingsScreen: React.FC = () => {
             By the time the "order" arrives, the craving has subsided, and you are rewarded with a celebration of the 
             exact amount of money you saved, reinforcing positive habits.
           </p>
+        </div>
+      </div>
+
+      {/* Troubleshooting */}
+      <div className="px-6 py-3">
+        <div className="glass-panel rounded-2xl p-5 bg-darkcard/40 border-slate-800 space-y-4">
+          <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+            <RefreshCw size={14} className="text-indigo-400" />
+            Troubleshooting
+          </h3>
+          <div className="space-y-2">
+            <p className="text-[10px] text-slate-500 leading-relaxed">
+              If the app feels stuck, isn't loading new content, or you just updated it to your home screen, you can force a complete reload.
+            </p>
+            <button
+              onClick={() => { haptics.lightTap(); window.location.reload(); }}
+              className="w-full py-2.5 px-4 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer text-center bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 hover:bg-indigo-500/30"
+            >
+              Force App Reload
+            </button>
+          </div>
         </div>
       </div>
 
