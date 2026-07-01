@@ -44,7 +44,7 @@ const SearchItemRow: React.FC<{
   onAdd: () => void;
   onRemove: () => void;
   currency: any;
-}> = ({ item, restaurantId, restaurantName, quantityInCart, onAdd, onRemove, currency }) => {
+}> = ({ item, restaurantName, quantityInCart, onAdd, onRemove, currency }) => {
   const [imageUrl, setImageUrl] = useState<string>('');
   const [loadingUrl, setLoadingUrl] = useState<boolean>(true);
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
