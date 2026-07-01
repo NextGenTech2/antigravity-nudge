@@ -2,6 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Star, Clock, ShoppingBag } from 'lucide-react';
 import type { Restaurant } from '../types/restaurant';
+import { useAppStore } from '../store/useAppStore';
+import { formatCurrency } from '../services/currency';
 import { imageGenerator } from '../services/imageGenerator';
 import { haptics } from '../services/haptics';
 
@@ -85,7 +87,7 @@ export const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant, onCl
           </div>
           <div className="flex items-center gap-1">
             <ShoppingBag size={13} className="text-emerald-400" />
-            <span>₹{restaurant.deliveryFee} delivery</span>
+            <span>{formatCurrency(restaurant.deliveryFee, useAppStore.getState().settings.currency)} delivery</span>
           </div>
         </div>
       </div>

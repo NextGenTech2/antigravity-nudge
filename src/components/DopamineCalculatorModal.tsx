@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { X, TrendingUp, Lightbulb, ShieldAlert } from 'lucide-react';
 import { haptics } from '../services/haptics';
 import { useAppStore } from '../store/useAppStore';
+import { formatCurrency } from '../services/currency';
 
 interface DopamineCalculatorModalProps {
   isOpen: boolean;
@@ -12,9 +13,26 @@ interface DopamineCalculatorModalProps {
 type TriggerType = 'BOREDOM' | 'STRESS' | 'REWARD' | 'LATE_NIGHT';
 
 export const DopamineCalculatorModal: React.FC<DopamineCalculatorModalProps> = ({ isOpen, onClose }) => {
+  const { settings, startGlobalIntercept } = useAppStore();
+
+  const getSliderLimits = () => {
+    if (settings.currency === 'USD') {
+      return { min: 10, max: 150, step: 5, defaultVal: 25 };
+    }
+    if (settings.currency === 'GBP') {
+      return { min: 8, max: 120, step: 5, defaultVal: 20 };
+    }
+    return { min: 150, max: 1500, step: 50, defaultVal: 350 };
+  };
+
+  const limits = getSliderLimits();
   const [frequency, setFrequency] = useState<number>(3); // orders per week
-  const [orderValue, setOrderValue] = useState<number>(350); // average cost in INR
+  const [orderValue, setOrderValue] = useState<number>(limits.defaultVal); // average cost
   const [trigger, setTrigger] = useState<TriggerType>('BOREDOM');
+
+  useEffect(() => {
+    setOrderValue(limits.defaultVal);
+  }, [settings.currency]);
 
   if (!isOpen) return null;
 
@@ -57,8 +75,6 @@ export const DopamineCalculatorModal: React.FC<DopamineCalculatorModalProps> = (
       advice: 'Your brain is just tired, not hungry. Drink a glass of water, lock your phone, and let our 60-second breathing cycle transition you into sleep mode.',
     },
   };
-
-  const { startGlobalIntercept } = useAppStore();
 
   const handleClose = () => {
     haptics.lightTap();
@@ -143,13 +159,15 @@ export const DopamineCalculatorModal: React.FC<DopamineCalculatorModalProps> = (
             <div className="space-y-2">
               <div className="flex justify-between text-xs">
                 <span className="text-slate-300 font-medium">Average Order Value</span>
-                <span className="text-emerald-400 font-bold font-mono">₹{orderValue}</span>
+                <span className="text-emerald-400 font-bold font-mono">
+                  {formatCurrency(orderValue, settings.currency)}
+                </span>
               </div>
               <input
                 type="range"
-                min="150"
-                max="1500"
-                step="50"
+                min={limits.min}
+                max={limits.max}
+                step={limits.step}
                 value={orderValue}
                 onChange={(e) => {
                   haptics.lightTap();
@@ -164,14 +182,18 @@ export const DopamineCalculatorModal: React.FC<DopamineCalculatorModalProps> = (
           <div className="grid grid-cols-2 gap-3">
             <div className="bg-slate-900/40 border border-slate-800/40 p-3.5 rounded-xl text-left">
               <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Annual Spending</span>
-              <span className="text-xl font-black text-rose-400 font-mono">₹{yearlySpend.toLocaleString('en-IN')}</span>
+              <span className="text-xl font-black text-rose-400 font-mono">
+                {formatCurrency(yearlySpend, settings.currency)}
+              </span>
               <p className="text-[9px] text-slate-500 mt-1">Direct cash drained from your account every 12 months.</p>
             </div>
 
             <div className="bg-emerald-500/5 border border-emerald-500/10 p-3.5 rounded-xl text-left relative overflow-hidden">
               <div className="absolute top-1 right-1 text-emerald-500/20"><TrendingUp size={40} /></div>
               <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider block mb-1">10-Year Opportunity Cost</span>
-              <span className="text-xl font-black text-emerald-400 font-mono">₹{futureValue.toLocaleString('en-IN')}</span>
+              <span className="text-xl font-black text-emerald-400 font-mono">
+                {formatCurrency(futureValue, settings.currency)}
+              </span>
               <p className="text-[9px] text-slate-400 mt-1">If saved and invested in a mutual fund @ 12% CAGR.</p>
             </div>
           </div>

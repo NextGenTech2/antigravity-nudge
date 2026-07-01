@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChefHat, Box, UserCheck, Compass, TrendingUp, Sparkles, Wind, Gamepad2, X, Trophy, CheckCircle2, Target } from 'lucide-react';
 import type { DeliveryStageType, CravingLog } from '../store/useAppStore';
 import { useAppStore } from '../store/useAppStore';
+import { formatCurrency } from '../services/currency';
 import { haptics } from '../services/haptics';
 import nudgesData from '../data/nudges.json';
 
@@ -52,7 +53,8 @@ export const ActiveOrderScreen: React.FC<ActiveOrderScreenProps> = ({
     setActiveOrderTrigger, 
     goals, 
     activeGoalId, 
-    setActiveGoalId 
+    setActiveGoalId,
+    settings
   } = useAppStore();
 
   // Overlays State
@@ -181,10 +183,35 @@ export const ActiveOrderScreen: React.FC<ActiveOrderScreenProps> = ({
   const pbBreath = getProgressBarBreathingState();
 
   // 4. Geolocation Integration
-  const [userCoords, setUserCoords] = useState<[number, number]>([12.9856, 77.6056]);
-  const [restaurantCoords, setRestaurantCoords] = useState<[number, number]>([12.9716, 77.5946]);
+  const getDefaultCoords = (): { user: [number, number]; rest: [number, number] } => {
+    if (settings.customCoords) {
+      return { 
+        user: settings.customCoords, 
+        rest: [settings.customCoords[0] - 0.012, settings.customCoords[1] + 0.008] 
+      };
+    }
+    
+    // Check fallback locations matching currency
+    if (settings.currency === 'USD') {
+      return { user: [40.7128, -74.0060], rest: [40.7008, -73.9980] };
+    }
+    if (settings.currency === 'GBP') {
+      return { user: [51.5074, -0.1278], rest: [51.4954, -0.1198] };
+    }
+    return { user: [12.9716, 77.5946], rest: [12.9856, 77.6056] };
+  };
+
+  const defaults = getDefaultCoords();
+  const [userCoords, setUserCoords] = useState<[number, number]>(defaults.user);
+  const [restaurantCoords, setRestaurantCoords] = useState<[number, number]>(defaults.rest);
 
   useEffect(() => {
+    if (settings.customCoords) {
+      setUserCoords(settings.customCoords);
+      setRestaurantCoords([settings.customCoords[0] - 0.012, settings.customCoords[1] + 0.008]);
+      return;
+    }
+
     if (!navigator.geolocation) return;
 
     navigator.geolocation.getCurrentPosition(
@@ -194,11 +221,11 @@ export const ActiveOrderScreen: React.FC<ActiveOrderScreenProps> = ({
         setRestaurantCoords([latitude - 0.012, longitude + 0.008]);
       },
       (error) => {
-        console.log('Geolocation access denied or failed. Using fallback city coordinates.', error);
+        console.log('Geolocation access denied or failed. Using fallback coordinates.', error);
       },
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+      { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
     );
-  }, []);
+  }, [settings.customCoords]);
 
   // Goal Progress Calculation
   const activeGoal = goals.find((g) => g.id === activeGoalId) || goals[0];
@@ -432,7 +459,7 @@ export const ActiveOrderScreen: React.FC<ActiveOrderScreenProps> = ({
               <div>
                 <p className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Saved Money Ticking</p>
                 <h2 className="text-2xl font-black text-emerald-400 font-mono tracking-tight flex items-center gap-1.5">
-                  ₹{currentSavings}
+                  {formatCurrency(currentSavings, settings.currency)}
                 </h2>
               </div>
             </div>
@@ -519,7 +546,7 @@ export const ActiveOrderScreen: React.FC<ActiveOrderScreenProps> = ({
               <div className="glass-panel rounded-xl py-2.5 px-4 bg-darkcard/95 border-slate-800 shadow-lg text-center max-w-sm mx-auto">
                 <p className="text-[9px] text-indigo-400 font-bold uppercase tracking-wider mb-0.5">Your Financial Reframing</p>
                 <p className="text-xs text-slate-100 font-bold truncate">
-                  ₹{activeOrder?.totalSaved} saved = {goalProgressPercent}% toward your {activeGoal.name} {activeGoal.emoji}
+                  {formatCurrency(activeOrder?.totalSaved || 0, settings.currency)} saved = {goalProgressPercent}% toward your {activeGoal.name} {activeGoal.emoji}
                 </p>
               </div>
             </div>
@@ -907,7 +934,7 @@ export const ActiveOrderScreen: React.FC<ActiveOrderScreenProps> = ({
               </div>
 
               <p className="text-[11px] text-slate-400 leading-relaxed">
-                Visualizing concrete rewards dampens immediate cravings. Select a savings bucket to allocate the ₹{activeOrder?.totalSaved} saved from this meal!
+                Visualizing concrete rewards dampens immediate cravings. Select a savings bucket to allocate the {formatCurrency(activeOrder?.totalSaved || 0, settings.currency)} saved from this meal!
               </p>
 
               {/* Goals List */}
@@ -952,7 +979,7 @@ export const ActiveOrderScreen: React.FC<ActiveOrderScreenProps> = ({
                           />
                         </div>
                         <div className="flex justify-between text-[9px] font-bold font-mono text-slate-500">
-                          <span>₹{goal.saved} / ₹{goal.target}</span>
+                          <span>{formatCurrency(goal.saved, settings.currency)} / {formatCurrency(goal.target, settings.currency)}</span>
                           <span className={isSelected ? 'text-emerald-400' : ''}>{futureGoalProgressPercent}%</span>
                         </div>
                       </div>

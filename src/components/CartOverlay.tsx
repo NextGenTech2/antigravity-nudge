@@ -2,6 +2,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart, Plus, Minus, Trash2, X, ChevronUp, ArrowRight } from 'lucide-react';
 import { useAppStore } from '../store/useAppStore';
+import { formatCurrency } from '../services/currency';
 import { haptics } from '../services/haptics';
 
 interface CartOverlayProps {
@@ -11,13 +12,20 @@ interface CartOverlayProps {
 }
 
 export const CartOverlay: React.FC<CartOverlayProps> = ({ onCheckout, isExpanded, setIsExpanded }) => {
-  const { cart, removeFromCart, updateQuantity } = useAppStore();
+  const { cart, removeFromCart, updateQuantity, settings } = useAppStore();
 
   if (!cart || cart.items.length === 0) return null;
 
   const totalItems = cart.items.reduce((sum, item) => sum + item.quantity, 0);
   const foodTotal = cart.items.reduce((sum, item) => sum + item.menuItem.price * item.quantity, 0);
-  const deliveryFee = 40; // Flat mock delivery fee
+  
+  const getDeliveryFee = (currency: 'INR' | 'USD' | 'GBP') => {
+    if (currency === 'USD') return 4.0;
+    if (currency === 'GBP') return 3.5;
+    return 40;
+  };
+  
+  const deliveryFee = getDeliveryFee(settings.currency);
   const orderTotal = foodTotal + deliveryFee;
 
   const handleToggle = () => {
@@ -91,7 +99,9 @@ export const CartOverlay: React.FC<CartOverlayProps> = ({ onCheckout, isExpanded
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="text-sm font-extrabold text-slate-200">₹{orderTotal}</span>
+                <span className="text-sm font-extrabold text-slate-200">
+                  {formatCurrency(orderTotal, settings.currency)}
+                </span>
                 <ChevronUp size={16} className="text-slate-400 animate-bounce" />
               </div>
             </motion.div>
@@ -124,9 +134,11 @@ export const CartOverlay: React.FC<CartOverlayProps> = ({ onCheckout, isExpanded
                   <div key={item.menuItem.id} className="flex items-center justify-between gap-4">
                     <div className="flex-1">
                       <h4 className="text-sm font-semibold text-slate-200 line-clamp-1">{item.menuItem.name}</h4>
-                      <p className="text-xs text-indigo-400 font-bold mt-0.5">₹{item.menuItem.price}</p>
+                      <p className="text-xs text-indigo-400 font-bold mt-0.5">
+                        {formatCurrency(item.menuItem.price, settings.currency)}
+                      </p>
                     </div>
-
+ 
                     <div className="flex items-center gap-3 bg-slate-900/60 border border-slate-800 rounded-lg p-1">
                       <button
                         onClick={() => handleQtyChange(item.menuItem.id, -1)}
@@ -143,7 +155,7 @@ export const CartOverlay: React.FC<CartOverlayProps> = ({ onCheckout, isExpanded
                         <Plus size={12} />
                       </button>
                     </div>
-
+ 
                     <button
                       onClick={() => handleRemove(item.menuItem.id)}
                       className="p-2 text-slate-500 hover:text-rose-400 transition-colors"
@@ -153,30 +165,30 @@ export const CartOverlay: React.FC<CartOverlayProps> = ({ onCheckout, isExpanded
                   </div>
                 ))}
               </div>
-
+ 
               {/* Bill Details & Savings Pitch */}
               <div className="p-4 bg-slate-900/40 border-t border-slate-800 space-y-3">
                 <div className="space-y-1.5 text-xs text-slate-400">
                   <div className="flex justify-between">
                     <span>Subtotal</span>
-                    <span>₹{foodTotal}</span>
+                    <span>{formatCurrency(foodTotal, settings.currency)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Simulated Delivery Fee</span>
-                    <span>₹{deliveryFee}</span>
+                    <span>{formatCurrency(deliveryFee, settings.currency)}</span>
                   </div>
                   <div className="flex justify-between text-emerald-400 font-semibold border-t border-slate-800/60 pt-1.5">
                     <span>Redirected to Savings</span>
-                    <span>₹{orderTotal}</span>
+                    <span>{formatCurrency(orderTotal, settings.currency)}</span>
                   </div>
                 </div>
-
+ 
                 {/* Simulated Order Button */}
                 <button
                   onClick={handleCheckoutClick}
-                  className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 shadow-accent-glow transition-all cursor-pointer active:scale-[0.98]"
+                  className="w-full bg-indigo-650 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 shadow-accent-glow transition-all cursor-pointer active:scale-[0.98]"
                 >
-                  <span>Place Order & Save ₹{orderTotal}</span>
+                  <span>Place Order & Save {formatCurrency(orderTotal, settings.currency)}</span>
                   <ArrowRight size={16} />
                 </button>
               </div>

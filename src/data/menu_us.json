@@ -1,0 +1,278 @@
+[
+  {
+    "id": "res_us_1",
+    "name": "Slice & Co.",
+    "cuisine": "Pizza & Sides • Italian • Healthy",
+    "rating": 4.5,
+    "deliveryTime": 30,
+    "deliveryFee": 4.0,
+    "image_keyword": "pizza",
+    "menu": [
+      {
+        "id": "m_us_1_1",
+        "name": "Pepperoni Pizza",
+        "description": "Warm, bubbly mozzarella topped with spicy, crispy curls of pepperoni.",
+        "price": 14.99,
+        "image_keyword": "pepperoni-pizza"
+      },
+      {
+        "id": "m_us_1_2",
+        "name": "Garlic Breadsticks",
+        "description": "Soft, buttery breadsticks brushed with aromatic garlic and warm cheese.",
+        "price": 5.99,
+        "image_keyword": "garlic-bread"
+      },
+      {
+        "id": "m_us_1_3",
+        "name": "Cheesy Loaded Fries",
+        "description": "Golden fries drowned in warm cheese sauce and savory toppings.",
+        "price": 6.99,
+        "image_keyword": "french fries"
+      },
+      {
+        "id": "m_us_1_4",
+        "name": "Margherita Pizza",
+        "description": "Fresh crushed basil and juicy tomatoes on thin wood-fired crust.",
+        "price": 12.99,
+        "image_keyword": "margherita-pizza"
+      },
+      {
+        "id": "m_us_1_5",
+        "name": "Potato Wedges",
+        "description": "Thick, crispy potato wedges seasoned with smoky paprika herbs.",
+        "price": 4.99,
+        "image_keyword": "potato wedges"
+      }
+    ]
+  },
+  {
+    "id": "res_us_2",
+    "name": "McDonald's & Chick-fil-A",
+    "cuisine": "Burgers & Fried Chicken • Fast Food",
+    "rating": 4.4,
+    "deliveryTime": 25,
+    "deliveryFee": 4.0,
+    "image_keyword": "burger",
+    "menu": [
+      {
+        "id": "m_us_2_1",
+        "name": "McDonald's Cheeseburger",
+        "description": "Flame-grilled juicy beef patty topped with warm melted American cheese.",
+        "price": 7.99,
+        "image_keyword": "cheeseburger"
+      },
+      {
+        "id": "m_us_2_2",
+        "name": "Chick-fil-A Spicy Chicken Sandwich",
+        "description": "Crispy fried chicken breast dunked in spicy buffalo sauce.",
+        "price": 8.99,
+        "image_keyword": "chicken-burger"
+      },
+      {
+        "id": "m_us_2_3",
+        "name": "Chick-fil-A Chicken Nuggets",
+        "description": "Tender, bite-sized chicken chunks fried to absolute crispy perfection.",
+        "price": 5.49,
+        "image_keyword": "chicken nuggets"
+      },
+      {
+        "id": "m_us_2_4",
+        "name": "McDonald's Bacon Double Cheeseburger",
+        "description": "Smoky crispy bacon piled high on a juicy cheeseburger patty.",
+        "price": 9.99,
+        "image_keyword": "bacon burger"
+      },
+      {
+        "id": "m_us_2_5",
+        "name": "Chick-fil-A Waffle Fries",
+        "description": "Crispy waffle-cut potato chips fried to golden perfection.",
+        "price": 4.49,
+        "image_keyword": "french fries"
+      }
+    ]
+  },
+  {
+    "id": "res_us_3",
+    "name": "Baskin-Robbins & Ben & Jerry's",
+    "cuisine": "Desserts & Sweets • Ice Cream • Gelato",
+    "rating": 4.6,
+    "deliveryTime": 35,
+    "deliveryFee": 5.0,
+    "image_keyword": "dessert",
+    "menu": [
+      {
+        "id": "m_us_3_1",
+        "name": "Baskin-Robbins Chocolate Sundae",
+        "description": "Rich vanilla ice cream loaded with warm chocolate fudge syrup.",
+        "price": 5.99,
+        "image_keyword": "ice cream sundae"
+      },
+      {
+        "id": "m_us_3_2",
+        "name": "Ben & Jerry's Cookie Dough Pint",
+        "description": "Creamy vanilla ice cream loaded with chocolate chip cookie dough chunks.",
+        "price": 6.99,
+        "image_keyword": "ice cream cup"
+      },
+      {
+        "id": "m_us_3_3",
+        "name": "Dairy Queen Oreo Blizzard",
+        "description": "Soft-serve vanilla ice cream blended with crispy crushed Oreo cookie pieces.",
+        "price": 5.49,
+        "image_keyword": "ice cream scoop"
+      },
+      {
+        "id": "m_us_3_4",
+        "name": "Cold Stone Creamery Milkshake",
+        "description": "Thick, velvety smooth blend of sweet cream milk and fudge sauce.",
+        "price": 6.49,
+        "image_keyword": "chocolate shake"
+      },
+      {
+        "id": "m_us_3_5",
+        "name": "Talenti Gelato Pint",
+        "description": "Artisanal, slow-churned sea salt caramel gelato with caramel swirl.",
+        "price": 6.99,
+        "image_keyword": "ice cream cup"
+      }
+    ]
+  },
+  {
+    "id": "res_us_4",
+    "name": "The Cheesecake Factory & Cinnabon",
+    "cuisine": "Sweets & Pastries • Cakes & Donuts",
+    "rating": 4.3,
+    "deliveryTime": 20,
+    "deliveryFee": 3.0,
+    "image_keyword": "dessert",
+    "menu": [
+      {
+        "id": "m_us_4_1",
+        "name": "Cheesecake Factory Chocolate Lava Cake",
+        "description": "Warm chocolate cake with a molten, oozing fudge center.",
+        "price": 6.99,
+        "image_keyword": "chocolate brownie"
+      },
+      {
+        "id": "m_us_4_2",
+        "name": "Cinnabon Classic Cinnamon Roll",
+        "description": "Warm, pillowy cinnamon roll smothered in signature cream cheese frosting.",
+        "price": 5.49,
+        "image_keyword": "donuts"
+      },
+      {
+        "id": "m_us_4_3",
+        "name": "Dunkin' Glazed Donuts",
+        "description": "Pillow-soft ring doughnuts coated in a warm, sweet glaze.",
+        "price": 3.99,
+        "image_keyword": "donuts"
+      },
+      {
+        "id": "m_us_4_4",
+        "name": "Cheesecake Factory Original Cheesecake",
+        "description": "Creamy, smooth New York style cheesecake on buttery graham crust.",
+        "price": 7.99,
+        "image_keyword": "cheesecake"
+      },
+      {
+        "id": "m_us_4_5",
+        "name": "Nothing Bundt Cakes Mini Bundt",
+        "description": "Moist, miniature red velvet bundt cake topped with signature cream cheese frosting.",
+        "price": 5.49,
+        "image_keyword": "donuts"
+      }
+    ]
+  },
+  {
+    "id": "res_us_5",
+    "name": "Taco Bell & Snacks",
+    "cuisine": "Chocolate & Savory Snacks • Mexican • Healthy Snacks",
+    "rating": 4.7,
+    "deliveryTime": 30,
+    "deliveryFee": 4.0,
+    "image_keyword": "snacks",
+    "menu": [
+      {
+        "id": "m_us_5_1",
+        "name": "Lay's Classic Potato Chips",
+        "description": "Paper-thin, ultra-crispy potato slices seasoned with sea salt.",
+        "price": 3.49,
+        "image_keyword": "potato chips"
+      },
+      {
+        "id": "m_us_5_2",
+        "name": "Ghirardelli Dark Chocolate Bar",
+        "description": "Rich, luxury 72% cacao dark chocolate bar.",
+        "price": 4.99,
+        "image_keyword": "chocolate"
+      },
+      {
+        "id": "m_us_5_3",
+        "name": "Smartfood White Cheddar Popcorn",
+        "description": "Warm, fluffy popped kernels tossed in real white cheddar cheese.",
+        "price": 3.99,
+        "image_keyword": "popcorn"
+      },
+      {
+        "id": "m_us_5_4",
+        "name": "Lindt Lindor Truffles",
+        "description": "Velvety smooth melt-in-your-mouth milk chocolate truffles.",
+        "price": 6.99,
+        "image_keyword": "chocolate cake"
+      },
+      {
+        "id": "m_us_5_5",
+        "name": "Taco Bell Nacho Fries",
+        "description": "Crisp seasoned fries served with hot, warm nacho cheese sauce.",
+        "price": 4.49,
+        "image_keyword": "french fries"
+      }
+    ]
+  },
+  {
+    "id": "res_us_6",
+    "name": "Sushirrito & Bento",
+    "cuisine": "Sushi • Japanese • Healthy",
+    "rating": 4.6,
+    "deliveryTime": 35,
+    "deliveryFee": 5.0,
+    "image_keyword": "sushi",
+    "menu": [
+      {
+        "id": "m_us_6_1",
+        "name": "California Sushi Roll",
+        "description": "Crab stick, avocado, and cucumber rolled with toasted sesame seeds.",
+        "price": 12.99,
+        "image_keyword": "sushi"
+      },
+      {
+        "id": "m_us_6_2",
+        "name": "Spicy Tuna Roll",
+        "description": "Minced spicy tuna and cucumber topped with spicy mayo and green onions.",
+        "price": 13.99,
+        "image_keyword": "sushi"
+      },
+      {
+        "id": "m_us_6_3",
+        "name": "Salmon Nigiri",
+        "description": "Fresh slices of raw salmon served over seasoned sushi rice.",
+        "price": 14.99,
+        "image_keyword": "sushi"
+      },
+      {
+        "id": "m_us_6_4",
+        "name": "Veg Tempura Roll",
+        "description": "Crispy vegetable tempura rolled in seasoned sushi rice and seaweed.",
+        "price": 11.99,
+        "image_keyword": "sushi"
+      },
+      {
+        "id": "m_us_6_5",
+        "name": "Edamame",
+        "description": "Steamed green soybeans in pod, sprinkled with coarse sea salt.",
+        "price": 5.99,
+        "image_keyword": "sushi"
+      }
+    ]
+  }
+]

@@ -44,6 +44,9 @@ interface AppSettings {
   openaiApiKey: string;
   hapticsEnabled: boolean;
   fastModeEnabled: boolean;
+  currency: 'INR' | 'USD' | 'GBP';
+  simulationCity: string;
+  customCoords: [number, number] | null;
 }
 
 export type DeliveryStageType = 'IDLE' | 'PREPARING' | 'PACKING' | 'RIDER_ASSIGNED' | 'EN_ROUTE' | 'DELIVERED';
@@ -118,6 +121,9 @@ const initialSettings: AppSettings = {
   openaiApiKey: '',
   hapticsEnabled: true,
   fastModeEnabled: false,
+  currency: 'INR',
+  simulationCity: 'Bengaluru',
+  customCoords: null,
 };
 
 export const useAppStore = create<AppState>()(
@@ -292,30 +298,82 @@ export const useAppStore = create<AppState>()(
       
       stopGlobalIntercept: () => set({ globalIntercept: 'NONE' }),
 
-      updateSettings: (newSettings) => set((state) => ({
-        settings: { ...state.settings, ...newSettings },
-      })),
+      updateSettings: (newSettings) => set((state) => {
+        const updatedSettings = { ...state.settings, ...newSettings };
+        const result: Partial<AppState> = { settings: updatedSettings };
 
-      resetAllData: () => set({
-        cart: null,
-        savings: 0,
-        history: [],
-        goals: [
-          { id: 'phuket', name: 'Phi Phi Islands Trip', target: 45000, saved: 0, emoji: '🌴' },
-          { id: 'zerodha', name: 'Zerodha Equity Portfolio', target: 100000, saved: 0, emoji: '📈' },
-          { id: 'tech', name: 'Tech Upgrade Fund', target: 80000, saved: 0, emoji: '💻' },
-        ],
-        activeGoalId: 'phuket',
-        globalIntercept: 'NONE',
-        settings: initialSettings,
-        deliveryStage: 'IDLE',
-        deliveryStartTime: null,
-        activeOrder: null,
-        currentTickingSavings: 0,
+        // If currency changed, adjust default goals target scales and default simulationCity
+        if (newSettings.currency && newSettings.currency !== state.settings.currency) {
+          const isINR = newSettings.currency === 'INR';
+          result.goals = isINR
+            ? [
+                { id: 'phuket', name: 'Phi Phi Islands Trip', target: 45000, saved: 0, emoji: '🌴' },
+                { id: 'zerodha', name: 'Zerodha Equity Portfolio', target: 100000, saved: 0, emoji: '📈' },
+                { id: 'tech', name: 'Tech Upgrade Fund', target: 80000, saved: 0, emoji: '💻' },
+              ]
+            : [
+                { id: 'trip', name: 'Tropical Vacation Trip', target: 600, saved: 0, emoji: '🌴' },
+                { id: 'stocks', name: 'Stock Market Portfolio', target: 1500, saved: 0, emoji: '📈' },
+                { id: 'tech', name: 'Tech Upgrade Fund', target: 1000, saved: 0, emoji: '💻' },
+              ];
+          result.activeGoalId = isINR ? 'phuket' : 'trip';
+          result.savings = 0; // reset savings to align with new currency scale
+          result.history = []; // clear history to align with new currency scale
+
+          // Also set default simulationCity based on currency if customCoords is not set
+          if (!updatedSettings.customCoords) {
+            updatedSettings.simulationCity = newSettings.currency === 'USD' 
+              ? 'New York' 
+              : newSettings.currency === 'GBP' 
+              ? 'London' 
+              : 'Bengaluru';
+          }
+        }
+        
+        return result;
+      }),
+
+      resetAllData: () => set((state) => {
+        const isINR = state.settings.currency === 'INR';
+        const defaultGoals = isINR
+          ? [
+              { id: 'phuket', name: 'Phi Phi Islands Trip', target: 45000, saved: 0, emoji: '🌴' },
+              { id: 'zerodha', name: 'Zerodha Equity Portfolio', target: 100000, saved: 0, emoji: '📈' },
+              { id: 'tech', name: 'Tech Upgrade Fund', target: 80000, saved: 0, emoji: '💻' },
+            ]
+          : [
+              { id: 'trip', name: 'Tropical Vacation Trip', target: 600, saved: 0, emoji: '🌴' },
+              { id: 'stocks', name: 'Stock Market Portfolio', target: 1500, saved: 0, emoji: '📈' },
+              { id: 'tech', name: 'Tech Upgrade Fund', target: 1000, saved: 0, emoji: '💻' },
+            ];
+        return {
+          cart: null,
+          savings: 0,
+          history: [],
+          goals: defaultGoals,
+          activeGoalId: isINR ? 'phuket' : 'trip',
+          globalIntercept: 'NONE',
+          settings: initialSettings,
+          deliveryStage: 'IDLE',
+          deliveryStartTime: null,
+          activeOrder: null,
+          currentTickingSavings: 0,
+        };
       }),
     }),
     {
       name: 'anti-cravings-storage',
+      merge: (persistedState, currentState) => {
+        const persisted = persistedState as any;
+        return {
+          ...currentState,
+          ...persisted,
+          settings: {
+            ...currentState.settings,
+            ...(persisted?.settings || {}),
+          },
+        };
+      },
     }
   )
 );

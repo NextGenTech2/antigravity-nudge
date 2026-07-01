@@ -11,6 +11,7 @@ import {
   PieChart 
 } from 'lucide-react';
 import { useAppStore } from '../store/useAppStore';
+import { formatCurrency } from '../services/currency';
 import { haptics } from '../services/haptics';
 import { DopamineCalculatorModal } from '../components/DopamineCalculatorModal';
 
@@ -27,7 +28,8 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
     setActiveGoalId, 
     deliveryStage, 
     activeOrder, 
-    currentTickingSavings 
+    currentTickingSavings,
+    settings
   } = useAppStore();
 
   const [activeView, setActiveView] = useState<'dashboard' | 'reports'>('dashboard');
@@ -68,12 +70,13 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
 
   const streak = calculateStreak();
 
-  // 2. Gamification: Level up every ₹1000 saved
-  const level = Math.floor(savings / 1000) + 1;
-  const nextLevelSavings = level * 1000;
-  const currentLevelBase = (level - 1) * 1000;
+  // 2. Gamification: Level up every ₹1000 or $25/£25 saved depending on currency
+  const levelDivisor = settings.currency === 'INR' ? 1000 : 25;
+  const level = Math.floor(savings / levelDivisor) + 1;
+  const nextLevelSavings = level * levelDivisor;
+  const currentLevelBase = (level - 1) * levelDivisor;
   const levelProgress = savings > 0 ? (savings - currentLevelBase) : 0;
-  const levelProgressPercent = Math.min(100, Math.max(0, (levelProgress / 1000) * 100));
+  const levelProgressPercent = Math.min(100, Math.max(0, (levelProgress / levelDivisor) * 100));
   const remainingToLevelUp = nextLevelSavings - savings;
 
   // 3. Trigger Colors Configuration
@@ -244,7 +247,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
                     />
                   </div>
                   <div className="flex justify-between text-[9px] font-bold font-mono text-slate-500">
-                    <span>₹{topGoal.saved} / ₹{topGoal.target}</span>
+                    <span>{formatCurrency(topGoal.saved, settings.currency)} / {formatCurrency(topGoal.target, settings.currency)}</span>
                     <span className={isActive ? 'text-emerald-400 font-extrabold' : ''}>{progressPercent}%</span>
                   </div>
                 </div>
@@ -303,7 +306,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
                             />
                           </div>
                           <div className="flex justify-between text-[9px] font-bold font-mono text-slate-500">
-                            <span>₹{goal.saved} / ₹{goal.target}</span>
+                            <span>{formatCurrency(goal.saved, settings.currency)} / {formatCurrency(goal.target, settings.currency)}</span>
                             <span className={isActive ? 'text-emerald-400 font-extrabold' : ''}>{progressPercent}%</span>
                           </div>
                         </div>
@@ -352,7 +355,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
               <div>
                 <h4 className="text-xs font-bold text-slate-200">Level {level} Craving Calmer</h4>
                 <p className="text-[10px] text-indigo-400 font-mono font-bold uppercase tracking-wider mt-0.5">
-                  ₹{remainingToLevelUp} to Level {level + 1}
+                  {formatCurrency(remainingToLevelUp, settings.currency)} to Level {level + 1}
                 </p>
               </div>
             </div>
@@ -389,7 +392,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
 
           <div className="flex justify-between items-end">
             <div className="space-y-1">
-              <span className="text-2xl font-black text-slate-100 font-mono">₹{savings}</span>
+              <span className="text-2xl font-black text-slate-100 font-mono">{formatCurrency(savings, settings.currency)}</span>
               <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Total Avoided Capital</p>
             </div>
             
@@ -570,9 +573,9 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
               )}
 
               {/* Y-Axis Labels */}
-              <text x={padding - 5} y={getSvgY(minY) + 4} textAnchor="end" fill="#475569" className="text-[9px] font-mono font-bold">₹0</text>
-              <text x={padding - 5} y={getSvgY(maxY / 2) + 4} textAnchor="end" fill="#475569" className="text-[9px] font-mono font-bold">₹{Math.round(maxY / 2)}</text>
-              <text x={padding - 5} y={getSvgY(maxY * 0.85) + 4} textAnchor="end" fill="#475569" className="text-[9px] font-mono font-bold">₹{Math.round(maxY * 0.85)}</text>
+              <text x={padding - 5} y={getSvgY(minY) + 4} textAnchor="end" fill="#475569" className="text-[9px] font-mono font-bold">{formatCurrency(0, settings.currency)}</text>
+              <text x={padding - 5} y={getSvgY(maxY / 2) + 4} textAnchor="end" fill="#475569" className="text-[9px] font-mono font-bold">{formatCurrency(Math.round(maxY / 2), settings.currency)}</text>
+              <text x={padding - 5} y={getSvgY(maxY * 0.85) + 4} textAnchor="end" fill="#475569" className="text-[9px] font-mono font-bold">{formatCurrency(Math.round(maxY * 0.85), settings.currency)}</text>
             </svg>
 
             <div className="flex justify-between w-full text-[9px] font-mono font-bold text-slate-500 px-2 mt-2">
@@ -589,7 +592,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
             <div className="grid grid-cols-2 gap-4">
               <div className="p-3 bg-slate-950/40 rounded-xl space-y-1">
                 <span className="text-[9px] text-slate-500 font-bold uppercase">Initial Saving</span>
-                <p className="text-sm font-black text-slate-200 font-mono">₹{sortedHistory[0]?.amountSaved || 0}</p>
+                <p className="text-sm font-black text-slate-200 font-mono">{formatCurrency(sortedHistory[0]?.amountSaved || 0, settings.currency)}</p>
               </div>
               <div className="p-3 bg-slate-950/40 rounded-xl space-y-1">
                 <span className="text-[9px] text-slate-500 font-bold uppercase">Current Target</span>
@@ -703,7 +706,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
 
                       <div className="flex items-center gap-3">
                         <div className="text-right">
-                          <span className="text-sm font-black text-slate-100 font-mono">₹{totalSavedForTrigger}</span>
+                          <span className="text-sm font-black text-slate-100 font-mono">{formatCurrency(totalSavedForTrigger, settings.currency)}</span>
                           <span className="text-[9px] text-slate-500 font-bold block font-mono">{percentage}%</span>
                         </div>
                         {triggerLogs.length > 0 && (
@@ -731,7 +734,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
                               >
                                 <div className="flex justify-between text-xs font-bold text-slate-300">
                                   <span className="uppercase tracking-wide">{log.restaurantName}</span>
-                                  <span className="text-emerald-400 font-mono">+₹{log.amountSaved}</span>
+                                  <span className="text-emerald-400 font-mono">+{formatCurrency(log.amountSaved, settings.currency)}</span>
                                 </div>
                                 <div className="text-[10px] text-slate-500 font-semibold flex justify-between">
                                   <span>{formatDate(log.timestamp)}</span>
@@ -797,9 +800,9 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
 
                       <div className="flex items-center gap-3">
                         <div className="text-right">
-                          <span className="text-sm font-black text-slate-100 font-mono">₹{goal.saved}</span>
+                          <span className="text-sm font-black text-slate-100 font-mono">{formatCurrency(goal.saved, settings.currency)}</span>
                           <span className="text-[9px] text-slate-500 font-bold block font-mono">
-                            Target: ₹{goal.target}
+                            Target: {formatCurrency(goal.target, settings.currency)}
                           </span>
                         </div>
                         {goalLogs.length > 0 && (
@@ -827,7 +830,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
                               >
                                 <div className="flex justify-between text-xs font-bold text-slate-300">
                                   <span className="uppercase tracking-wide">{log.restaurantName}</span>
-                                  <span className="text-emerald-400 font-mono">+₹{log.amountSaved}</span>
+                                  <span className="text-emerald-400 font-mono">+{formatCurrency(log.amountSaved, settings.currency)}</span>
                                 </div>
                                 <div className="text-[10px] text-slate-500 font-semibold flex justify-between">
                                   <span>{formatDate(log.timestamp)}</span>

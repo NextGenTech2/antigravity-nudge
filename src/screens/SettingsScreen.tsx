@@ -1,9 +1,23 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Settings, Key, HelpCircle, Eye, EyeOff, LogOut, Trash2, Smartphone, User, RefreshCw } from 'lucide-react';
+import { Settings, Key, HelpCircle, Eye, EyeOff, LogOut, Trash2, Smartphone, User, RefreshCw, Globe, MapPin, Loader2 } from 'lucide-react';
 import { useAppStore } from '../store/useAppStore';
 import { logoutUser } from '../services/firebase';
 import { haptics } from '../services/haptics';
+
+const PRESET_CITIES = [
+  { name: 'Bengaluru, India', coords: [12.9716, 77.5946] as [number, number] },
+  { name: 'Mumbai, India', coords: [19.0760, 72.8777] as [number, number] },
+  { name: 'New York, USA', coords: [40.7128, -74.0060] as [number, number] },
+  { name: 'London, UK', coords: [51.5074, -0.1278] as [number, number] },
+  { name: 'Tokyo, Japan', coords: [35.6762, 139.6503] as [number, number] },
+  { name: 'Sydney, Australia', coords: [-33.8688, 151.2093] as [number, number] },
+  { name: 'Paris, France', coords: [48.8566, 2.3522] as [number, number] },
+  { name: 'Toronto, Canada', coords: [43.6532, -79.3832] as [number, number] },
+  { name: 'Berlin, Germany', coords: [52.5200, 13.4050] as [number, number] },
+  { name: 'Singapore', coords: [1.3521, 103.8198] as [number, number] },
+  { name: 'Dubai, UAE', coords: [25.2048, 55.2708] as [number, number] },
+];
 
 export const SettingsScreen: React.FC = () => {
   const { user, settings, deliveryStage, updateSettings, logout, resetAllData } = useAppStore();
@@ -11,6 +25,10 @@ export const SettingsScreen: React.FC = () => {
   const [apiKey, setApiKey] = useState(settings.openaiApiKey);
   const [showKey, setShowKey] = useState(false);
   const [isResetConfirm, setIsResetConfirm] = useState(false);
+  
+  // Location Detection States
+  const [isDetecting, setIsDetecting] = useState(false);
+  const [detectError, setDetectError] = useState<string | null>(null);
 
   const handleApiKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
@@ -21,6 +39,94 @@ export const SettingsScreen: React.FC = () => {
   const toggleHaptics = () => {
     haptics.lightTap();
     updateSettings({ hapticsEnabled: !settings.hapticsEnabled });
+  };
+
+  const handleCurrencyChange = (curr: 'INR' | 'USD' | 'GBP') => {
+    haptics.mediumTap();
+    if (confirm("Changing currency will clear your current savings and craving logs to align with the new currency scale. Do you want to proceed?")) {
+      let defaultCity = 'Bengaluru, India';
+      let defaultCoords: [number, number] = [12.9716, 77.5946];
+
+      if (curr === 'USD') {
+        defaultCity = 'New York, USA';
+        defaultCoords = [40.7128, -74.0060];
+      } else if (curr === 'GBP') {
+        defaultCity = 'London, UK';
+        defaultCoords = [51.5074, -0.1278];
+      }
+
+      updateSettings({
+        currency: curr,
+        simulationCity: defaultCity,
+        customCoords: defaultCoords,
+      });
+    }
+  };
+
+  const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    haptics.lightTap();
+    const cityName = e.target.value;
+    const selected = PRESET_CITIES.find(c => c.name === cityName);
+    if (selected) {
+      updateSettings({
+        simulationCity: cityName,
+        customCoords: selected.coords,
+      });
+    }
+  };
+
+  const handleDetectLocation = () => {
+    if (!navigator.geolocation) {
+      haptics.warningNotification();
+      setDetectError('GPS is not supported by your device.');
+      return;
+    }
+
+    haptics.lightTap();
+    setIsDetecting(true);
+    setDetectError(null);
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        try {
+          // Keyless Nominatim reverse-geocoding API call
+          const res = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&accept-language=en`,
+            { headers: { 'User-Agent': 'AntiDopaminePWA/1.0' } }
+          );
+          if (res.ok) {
+            const data = await res.json();
+            const city = data.address.city || data.address.town || data.address.village || data.address.suburb || 'Detected Location';
+            
+            updateSettings({
+              simulationCity: city,
+              customCoords: [latitude, longitude],
+            });
+            haptics.successNotification();
+          } else {
+            throw new Error('Reverse geocoding failed');
+          }
+        } catch (err) {
+          console.error(err);
+          // Fallback if geocoding fails but GPS works
+          updateSettings({
+            simulationCity: 'Detected Location',
+            customCoords: [latitude, longitude],
+          });
+          haptics.successNotification();
+        } finally {
+          setIsDetecting(false);
+        }
+      },
+      (error) => {
+        console.error(error);
+        haptics.warningNotification();
+        setDetectError('Location access denied or failed.');
+        setIsDetecting(false);
+      },
+      { enableHighAccuracy: true, timeout: 8000 }
+    );
   };
 
   const handleLogout = async () => {
@@ -83,6 +189,108 @@ export const SettingsScreen: React.FC = () => {
         </div>
       </div>
 
+      {/* Locale & Currency Settings */}
+      <div className="px-6 py-3">
+        <div className="glass-panel rounded-2xl p-4 bg-darkcard/40 border-slate-800 space-y-4">
+          <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+            <Globe size={14} className="text-indigo-400" />
+            Locale & Currency
+          </h3>
+
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs font-semibold text-slate-200">Active Currency</p>
+                <p className="text-[10px] text-slate-500 mt-0.5">Formats menus, vaults, and live savings tracking.</p>
+              </div>
+              
+              {/* Segmented control */}
+              <div className="flex bg-slate-950 p-1 rounded-xl border border-slate-850">
+                {(['INR', 'USD', 'GBP'] as const).map((curr) => {
+                  const isSelected = settings.currency === curr;
+                  return (
+                    <button
+                      key={curr}
+                      onClick={() => handleCurrencyChange(curr)}
+                      className={`px-3 py-1 rounded-lg text-xs font-black transition-all cursor-pointer ${
+                        isSelected 
+                          ? 'bg-indigo-600 text-white shadow-md' 
+                          : 'text-slate-500 hover:text-slate-300'
+                      }`}
+                    >
+                      {curr === 'INR' ? '₹' : curr === 'USD' ? '$' : '£'}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+            
+            <p className="text-[9px] text-slate-500 leading-relaxed pt-1.5 border-t border-slate-850/60">
+              ⚠️ Changing currency will reset your historical logs and savings balances to prevent scaling inconsistencies.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Simulation Location Settings */}
+      <div className="px-6 py-3">
+        <div className="glass-panel rounded-2xl p-4 bg-darkcard/40 border-slate-800 space-y-4">
+          <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+            <MapPin size={14} className="text-indigo-400" />
+            Simulation Location
+          </h3>
+
+          <div className="flex flex-col gap-3">
+            <div>
+              <p className="text-xs font-semibold text-slate-200">Map Starting Point</p>
+              <p className="text-[10px] text-slate-500 mt-0.5">Where the simulated courier begins their route.</p>
+            </div>
+
+            {/* Selector Dropdown */}
+            <select
+              value={settings.simulationCity}
+              onChange={handleCityChange}
+              className="w-full h-10 px-3 rounded-xl glass-input text-xs focus:outline-none cursor-pointer"
+            >
+              {/* If we have a custom detected city, include it as an option */}
+              {!PRESET_CITIES.some(c => c.name === settings.simulationCity) && (
+                <option value={settings.simulationCity}>
+                  📍 {settings.simulationCity} (Detected)
+                </option>
+              )}
+              {PRESET_CITIES.map((c) => (
+                <option key={c.name} value={c.name}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+
+            {/* GPS Detector button */}
+            <button
+              onClick={handleDetectLocation}
+              disabled={isDetecting}
+              className="w-full py-2.5 px-4 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer text-center bg-indigo-600/20 text-indigo-450 border border-indigo-500/30 hover:bg-indigo-500/30 flex items-center justify-center gap-1.5 disabled:opacity-50"
+            >
+              {isDetecting ? (
+                <>
+                  <Loader2 size={14} className="animate-spin text-indigo-400" />
+                  <span>Detecting Location...</span>
+                </>
+              ) : (
+                <>
+                  <MapPin size={14} />
+                  <span>Auto-Detect My City (GPS)</span>
+                </>
+              )}
+            </button>
+
+            {detectError && (
+              <p className="text-[9px] text-rose-450 font-medium">{detectError}</p>
+            )}
+          </div>
+        </div>
+      </div>
+
       {/* Haptics Settings */}
       <div className="px-6 py-3">
         <div className="glass-panel rounded-2xl p-4 bg-darkcard/40 border-slate-800 space-y-4">
@@ -97,7 +305,6 @@ export const SettingsScreen: React.FC = () => {
               <p className="text-[10px] text-slate-500 mt-0.5">Tactile clicks on cart additions and milestones.</p>
             </div>
             
-            {/* Custom Sliding Toggle */}
             <button
               onClick={toggleHaptics}
               className={`w-12 h-6 rounded-full p-0.5 transition-colors cursor-pointer focus:outline-none ${
@@ -128,7 +335,6 @@ export const SettingsScreen: React.FC = () => {
               <p className="text-[10px] text-slate-500 mt-0.5">Compresses 1 minute of waiting into 1 second.</p>
             </div>
             
-            {/* Custom Sliding Toggle */}
             <button
               onClick={() => {
                 haptics.lightTap();
@@ -239,7 +445,7 @@ export const SettingsScreen: React.FC = () => {
               className={`w-full py-2.5 px-4 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer text-center border ${
                 isResetConfirm
                   ? 'bg-rose-600 text-white border-rose-700 animate-pulse'
-                  : 'bg-transparent text-rose-400 border-rose-500/20 hover:bg-rose-500/10'
+                  : 'bg-transparent text-rose-450 border-rose-500/20 hover:bg-rose-500/10'
               }`}
             >
               {isResetConfirm ? 'Tap Again to Wipe All Data' : 'Reset All Local Data'}

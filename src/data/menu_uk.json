@@ -1,0 +1,278 @@
+[
+  {
+    "id": "res_uk_1",
+    "name": "Domino's Pizza",
+    "cuisine": "Pizza & Sides • Italian • Healthy",
+    "rating": 4.5,
+    "deliveryTime": 30,
+    "deliveryFee": 3.5,
+    "image_keyword": "pizza",
+    "menu": [
+      {
+        "id": "m_uk_1_1",
+        "name": "Pepperoni Pizza",
+        "description": "Warm, bubbly mozzarella topped with spicy, crispy curls of pepperoni.",
+        "price": 12.99,
+        "image_keyword": "pepperoni-pizza"
+      },
+      {
+        "id": "m_uk_1_2",
+        "name": "Garlic Breadsticks",
+        "description": "Soft, buttery breadsticks brushed with aromatic garlic and warm cheese.",
+        "price": 4.99,
+        "image_keyword": "garlic-bread"
+      },
+      {
+        "id": "m_uk_1_3",
+        "name": "Cheesy Loaded Fries",
+        "description": "Golden fries drowned in warm cheese sauce and savory toppings.",
+        "price": 5.99,
+        "image_keyword": "french fries"
+      },
+      {
+        "id": "m_uk_1_4",
+        "name": "Margherita Pizza",
+        "description": "Fresh crushed basil and juicy tomatoes on thin wood-fired crust.",
+        "price": 10.99,
+        "image_keyword": "margherita-pizza"
+      },
+      {
+        "id": "m_uk_1_5",
+        "name": "Potato Wedges",
+        "description": "Thick, crispy potato wedges seasoned with smoky paprika herbs.",
+        "price": 3.99,
+        "image_keyword": "potato wedges"
+      }
+    ]
+  },
+  {
+    "id": "res_uk_2",
+    "name": "McDonald's & Nando's",
+    "cuisine": "Burgers & Fried Chicken • Fast Food",
+    "rating": 4.4,
+    "deliveryTime": 25,
+    "deliveryFee": 3.5,
+    "image_keyword": "burger",
+    "menu": [
+      {
+        "id": "m_uk_2_1",
+        "name": "Cheeseburger",
+        "description": "Flame-grilled juicy beef patty topped with warm melted American cheese.",
+        "price": 6.99,
+        "image_keyword": "cheeseburger"
+      },
+      {
+        "id": "m_uk_2_2",
+        "name": "Spicy Chicken Sandwich",
+        "description": "Crispy fried chicken breast dunked in spicy buffalo sauce.",
+        "price": 7.99,
+        "image_keyword": "chicken-burger"
+      },
+      {
+        "id": "m_uk_2_3",
+        "name": "Chicken Nuggets",
+        "description": "Tender, bite-sized chicken chunks fried to absolute crispy perfection.",
+        "price": 4.99,
+        "image_keyword": "chicken nuggets"
+      },
+      {
+        "id": "m_uk_2_4",
+        "name": "Bacon Burger",
+        "description": "Smoky crispy bacon piled high on a juicy cheeseburger patty.",
+        "price": 8.99,
+        "image_keyword": "bacon burger"
+      },
+      {
+        "id": "m_uk_2_5",
+        "name": "Popcorn Chicken",
+        "description": "Crunchy, pop-in-your-mouth spicy seasoned bite-sized chicken pops.",
+        "price": 5.99,
+        "image_keyword": "popcorn chicken"
+      }
+    ]
+  },
+  {
+    "id": "res_uk_3",
+    "name": "Dairy Queen & Sweets",
+    "cuisine": "Desserts & Sweets • Indian • Gelato",
+    "rating": 4.6,
+    "deliveryTime": 35,
+    "deliveryFee": 4.5,
+    "image_keyword": "dessert",
+    "menu": [
+      {
+        "id": "m_uk_3_1",
+        "name": "Chocolate Sundae",
+        "description": "Rich vanilla ice cream loaded with warm chocolate fudge syrup.",
+        "price": 4.99,
+        "image_keyword": "ice cream sundae"
+      },
+      {
+        "id": "m_uk_3_2",
+        "name": "Gulab Jamun",
+        "description": "Warm milk dumplings soaked in sticky sweet cardamom saffron syrup.",
+        "price": 3.99,
+        "image_keyword": "gulab jamun"
+      },
+      {
+        "id": "m_uk_3_3",
+        "name": "Jalebi",
+        "description": "Crisp, piping-hot golden spirals dripping with cardamom syrup.",
+        "price": 3.49,
+        "image_keyword": "jalebi"
+      },
+      {
+        "id": "m_uk_3_4",
+        "name": "Milkshake",
+        "description": "Thick, velvety smooth blend of milk, cream, and rich flavors.",
+        "price": 4.49,
+        "image_keyword": "chocolate shake"
+      },
+      {
+        "id": "m_uk_3_5",
+        "name": "Gelato",
+        "description": "Artisanal, slow-churned Italian ice cream with intense fresh flavor.",
+        "price": 5.49,
+        "image_keyword": "ice cream scoop"
+      }
+    ]
+  },
+  {
+    "id": "res_uk_4",
+    "name": "Greggs & Krispy Kreme",
+    "cuisine": "Sweets & Pastries • Indian Cakes",
+    "rating": 4.3,
+    "deliveryTime": 20,
+    "deliveryFee": 2.5,
+    "image_keyword": "dessert",
+    "menu": [
+      {
+        "id": "m_uk_4_1",
+        "name": "Chocolate Lava Cake",
+        "description": "Warm chocolate cake with a molten, oozing fudge center.",
+        "price": 4.99,
+        "image_keyword": "chocolate brownie"
+      },
+      {
+        "id": "m_uk_4_2",
+        "name": "Samosas",
+        "description": "Flaky pastry pockets packed with hot, spiced potato mash.",
+        "price": 3.49,
+        "image_keyword": "samosa"
+      },
+      {
+        "id": "m_uk_4_3",
+        "name": "Glazed Doughnuts",
+        "description": "Pillow-soft ring doughnuts coated in a warm, sweet glaze.",
+        "price": 3.49,
+        "image_keyword": "donuts"
+      },
+      {
+        "id": "m_uk_4_4",
+        "name": "Cheesecake",
+        "description": "Creamy, smooth New York style cheesecake on buttery graham crust.",
+        "price": 6.49,
+        "image_keyword": "cheesecake"
+      },
+      {
+        "id": "m_uk_4_5",
+        "name": "Churros",
+        "description": "Crispy fried pastry sticks dusted in sweet cinnamon sugar.",
+        "price": 4.99,
+        "image_keyword": "churros"
+      }
+    ]
+  },
+  {
+    "id": "res_uk_5",
+    "name": "Taco Bell & Snacks",
+    "cuisine": "Chocolate & Savory Snacks • Mexican • Healthy Snacks",
+    "rating": 4.7,
+    "deliveryTime": 30,
+    "deliveryFee": 3.5,
+    "image_keyword": "snacks",
+    "menu": [
+      {
+        "id": "m_uk_5_1",
+        "name": "Potato Crisps",
+        "description": "Paper-thin, ultra-crispy potato slices seasoned with sea salt.",
+        "price": 2.99,
+        "image_keyword": "potato chips"
+      },
+      {
+        "id": "m_uk_5_2",
+        "name": "Dark Chocolate Bar",
+        "description": "Rich, bittersweet luxury dark chocolate cocoa bar.",
+        "price": 3.99,
+        "image_keyword": "chocolate"
+      },
+      {
+        "id": "m_uk_5_3",
+        "name": "Popcorn",
+        "description": "Warm, fluffy popped kernels tossed in hot movie-theater butter.",
+        "price": 3.49,
+        "image_keyword": "popcorn"
+      },
+      {
+        "id": "m_uk_5_4",
+        "name": "Chocolate Truffles",
+        "description": "Velvety smooth melt-in-your-mouth premium chocolate ganache balls.",
+        "price": 5.99,
+        "image_keyword": "chocolate cake"
+      },
+      {
+        "id": "m_uk_5_5",
+        "name": "Pani Puri",
+        "description": "Crisp hollow puri shells stuffed with spicy flavored water.",
+        "price": 4.49,
+        "image_keyword": "panipuri"
+      }
+    ]
+  },
+  {
+    "id": "res_uk_6",
+    "name": "Wasabi Sushi & Bento",
+    "cuisine": "Sushi • Japanese • Healthy",
+    "rating": 4.5,
+    "deliveryTime": 35,
+    "deliveryFee": 4.5,
+    "image_keyword": "sushi",
+    "menu": [
+      {
+        "id": "m_uk_6_1",
+        "name": "California Sushi Roll",
+        "description": "Crab stick, avocado, and cucumber rolled with toasted sesame seeds.",
+        "price": 10.99,
+        "image_keyword": "sushi"
+      },
+      {
+        "id": "m_uk_6_2",
+        "name": "Spicy Tuna Roll",
+        "description": "Minced spicy tuna and cucumber topped with spicy mayo and green onions.",
+        "price": 11.99,
+        "image_keyword": "sushi"
+      },
+      {
+        "id": "m_uk_6_3",
+        "name": "Salmon Nigiri",
+        "description": "Fresh slices of raw salmon served over seasoned sushi rice.",
+        "price": 12.99,
+        "image_keyword": "sushi"
+      },
+      {
+        "id": "m_uk_6_4",
+        "name": "Veg Tempura Roll",
+        "description": "Crispy vegetable tempura rolled in seasoned sushi rice and seaweed.",
+        "price": 9.99,
+        "image_keyword": "sushi"
+      },
+      {
+        "id": "m_uk_6_5",
+        "name": "Edamame",
+        "description": "Steamed green soybeans in pod, sprinkled with coarse sea salt.",
+        "price": 4.99,
+        "image_keyword": "sushi"
+      }
+    ]
+  }
+]

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Star, Clock, ShoppingBag, Plus, Minus } from 'lucide-react';
 import type { Restaurant, MenuItem } from '../types/restaurant';
 import { useAppStore } from '../store/useAppStore';
+import { formatCurrency } from '../services/currency';
 import { imageGenerator } from '../services/imageGenerator';
 import { haptics } from '../services/haptics';
 
@@ -81,7 +82,9 @@ const MenuItemRow: React.FC<{
         </div>
 
         <div className="flex justify-between items-center mt-3">
-          <span className="text-sm font-extrabold text-indigo-400">₹{item.price}</span>
+          <span className="text-sm font-extrabold text-indigo-400">
+            {formatCurrency(item.price, useAppStore.getState().settings.currency)}
+          </span>
 
           {/* Cart Buttons */}
           {quantityInCart > 0 ? (
@@ -199,7 +202,9 @@ export const MenuScreen: React.FC<MenuScreenProps> = ({ restaurant, onBack }) =>
         </div>
         <div className="flex items-center gap-1.5 bg-slate-900/80 py-1.5 px-3 rounded-xl border border-slate-800">
           <ShoppingBag size={14} className="text-emerald-400" />
-          <span className="text-xs font-bold text-slate-200">₹{restaurant.deliveryFee} fee</span>
+          <span className="text-xs font-bold text-slate-200">
+            {formatCurrency(restaurant.deliveryFee, useAppStore.getState().settings.currency)} fee
+          </span>
         </div>
       </div>
 
@@ -209,7 +214,7 @@ export const MenuScreen: React.FC<MenuScreenProps> = ({ restaurant, onBack }) =>
           Menu Items
         </h3>
         <p className="text-xs text-slate-500 mt-0.5">
-          Select items. You won't pay a single rupee. All costs go straight to your savings.
+          Select items. You won't pay a single coin. All costs go straight to your savings.
         </p>
       </div>
 
