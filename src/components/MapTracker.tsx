@@ -3,7 +3,6 @@ import { MapContainer, TileLayer, Marker, Polyline, useMap } from 'react-leaflet
 import L from 'leaflet';
 import confetti from 'canvas-confetti';
 import { haptics } from '../services/haptics';
-import { Navigation } from 'lucide-react';
 
 interface MapTrackerProps {
   progress: number; // 0 to 1
