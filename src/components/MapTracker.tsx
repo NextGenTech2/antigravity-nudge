@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Polyline, useMap } from 'react-leaflet
 import L from 'leaflet';
 import confetti from 'canvas-confetti';
 import { haptics } from '../services/haptics';
+import { Navigation } from 'lucide-react';
 
 interface MapTrackerProps {
   progress: number; // 0 to 1
@@ -10,6 +11,7 @@ interface MapTrackerProps {
   currentSavings: number; // live savings amount
   userCoords: [number, number];
   restaurantCoords: [number, number];
+  recenterTrigger?: number;
 }
 
 const WITTY_FACTS = [
@@ -23,16 +25,19 @@ const WITTY_FACTS = [
 interface MapControllerProps {
   userCoords: [number, number];
   restaurantCoords: [number, number];
+  recenterTrigger: number;
 }
 
-const MapController: React.FC<MapControllerProps> = ({ userCoords, restaurantCoords }) => {
+const MapController: React.FC<MapControllerProps> = ({ userCoords, restaurantCoords, recenterTrigger }) => {
   const map = useMap();
   useEffect(() => {
     map.fitBounds([restaurantCoords, userCoords], {
       padding: [50, 50],
       maxZoom: 15,
+      animate: true,
+      duration: 1.0,
     });
-  }, [map, userCoords, restaurantCoords]);
+  }, [map, userCoords, restaurantCoords, recenterTrigger]);
   return null;
 };
 
@@ -52,6 +57,7 @@ export const MapTracker: React.FC<MapTrackerProps> = ({
   eta,
   userCoords,
   restaurantCoords,
+  recenterTrigger = 0,
 }) => {
   const [activeBubble, setActiveBubble] = useState<string | null>(null);
 
@@ -198,7 +204,11 @@ export const MapTracker: React.FC<MapTrackerProps> = ({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
         />
-        <MapController userCoords={userCoords} restaurantCoords={restaurantCoords} />
+        <MapController 
+          userCoords={userCoords} 
+          restaurantCoords={restaurantCoords} 
+          recenterTrigger={recenterTrigger} 
+        />
         
         {/* Path Line */}
         <Polyline

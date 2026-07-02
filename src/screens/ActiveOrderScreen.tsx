@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChefHat, Box, UserCheck, Compass, TrendingUp, Sparkles, Wind, Gamepad2, X, Trophy, CheckCircle2, Target } from 'lucide-react';
+import { ChefHat, Box, UserCheck, Compass, TrendingUp, Sparkles, Wind, Gamepad2, X, Trophy, CheckCircle2, Target, Navigation } from 'lucide-react';
 import type { DeliveryStageType, CravingLog } from '../store/useAppStore';
 import { useAppStore } from '../store/useAppStore';
 import { formatCurrency } from '../services/currency';
@@ -107,10 +107,13 @@ export const ActiveOrderScreen: React.FC<ActiveOrderScreenProps> = ({
   // 2. Micro-Commitment Hold State
   const [holdProgress, setHoldProgress] = useState(0);
   const [isAcknowledged, setIsAcknowledged] = useState(false);
+  const [recenterCount, setRecenterCount] = useState(0);
   const holdIntervalRef = useRef<any>(null);
 
   const handleHoldStart = (e: React.MouseEvent | React.TouchEvent) => {
-    e.preventDefault();
+    if (e.cancelable) {
+      e.preventDefault();
+    }
     if (isAcknowledged) return;
     haptics.lightTap();
     
@@ -512,6 +515,7 @@ export const ActiveOrderScreen: React.FC<ActiveOrderScreenProps> = ({
                 currentSavings={currentSavings}
                 userCoords={userCoords}
                 restaurantCoords={restaurantCoords}
+                recenterTrigger={recenterCount}
               />
             </Suspense>
 
@@ -522,8 +526,19 @@ export const ActiveOrderScreen: React.FC<ActiveOrderScreenProps> = ({
               </span>
             </div>
 
-            {/* HUD Sidebar: Intervention Action Icons */}
+            {/* HUD Sidebar: Intervention Action & Map Control Icons */}
             <div className="absolute right-4 top-[35%] -translate-y-1/2 flex flex-col gap-3.5 z-[9999]">
+              <button
+                onClick={() => {
+                  haptics.lightTap();
+                  setRecenterCount((prev) => prev + 1);
+                }}
+                className="h-11 w-11 rounded-full glass-panel flex items-center justify-center bg-darkcard/80 border-indigo-500/30 text-indigo-400 shadow-glass hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                title="Re-center Map Route"
+              >
+                <Navigation size={20} />
+              </button>
+
               <button
                 onClick={startBreathing}
                 className="h-11 w-11 rounded-full glass-panel flex items-center justify-center bg-darkcard/80 border-indigo-500/30 text-indigo-400 shadow-glass hover:scale-105 active:scale-95 transition-all cursor-pointer"
