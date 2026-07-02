@@ -73,7 +73,7 @@ export const MapTracker: React.FC<MapTrackerProps> = ({
     haptics.lightTap();
     const fact = WITTY_FACTS[Math.floor(Math.random() * WITTY_FACTS.length)];
     setActiveBubble(fact);
-    setTimeout(() => setActiveBubble(null), 4000);
+    setTimeout(() => setActiveBubble(null), 7000); // Hold for 7 seconds
   };
 
   const riderPos = interpolateCoords(restaurantCoords, userCoords, progress);
@@ -133,8 +133,8 @@ export const MapTracker: React.FC<MapTrackerProps> = ({
     }
 
     const bubbleHtml = activeBubble 
-      ? `<div class="absolute -top-[5.5rem] ${bubblePositionClasses} w-48 bg-slate-900 border border-indigo-500 rounded-xl p-2.5 shadow-xl z-[1000] text-center animate-in fade-in zoom-in duration-300">
-           <p class="text-[10px] text-white font-bold leading-tight">${activeBubble}</p>
+      ? `<div class="absolute -top-[6.5rem] ${bubblePositionClasses} w-52 bg-slate-900 border border-indigo-500 rounded-xl p-3 shadow-xl z-[1000] text-center animate-in fade-in zoom-in duration-300">
+           <p class="text-xs text-white font-semibold leading-snug">${activeBubble}</p>
            <div class="absolute -bottom-1.5 ${pointerClasses} w-3 h-3 bg-slate-900 border-r border-b border-indigo-500 rotate-45"></div>
          </div>`
       : '';
@@ -145,7 +145,7 @@ export const MapTracker: React.FC<MapTrackerProps> = ({
         ${bubbleHtml}
         <div class="relative flex items-center justify-center h-12 w-12 bg-indigo-600 border-2 border-slate-900 rounded-full shadow-accent-glow transition-all duration-300 ${animationClass}">
           <span class="text-xl">${emoji}</span>
-          <div class="absolute -bottom-2 bg-indigo-500 text-[7px] px-1.5 py-0.5 rounded-full font-black text-white uppercase tracking-wider whitespace-nowrap shadow-md">${label}</div>
+          <div class="absolute -bottom-2.5 bg-indigo-500 text-[9px] px-2 py-0.5 rounded-full font-black text-white uppercase tracking-wider whitespace-nowrap shadow-md">${label}</div>
         </div>
       `,
       iconSize: [48, 48],
